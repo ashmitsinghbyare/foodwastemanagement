@@ -22,7 +22,7 @@ const app = express();
 const port = 3000;
 const cors = require('cors');
 app.use(cors()); // Enable CORS for all routes
-
+require('dotenv').config();
 const server = http.createServer(app);
 const io = socketIo(server);
 
@@ -47,15 +47,10 @@ app.use(session({
 }));
 
 // === MongoDB Setup ===
-mongoose.connect('mongodb://localhost:27017/foodwastemanagement', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000,
-}).then(() => {
-  console.log('MongoDB connected successfully');
-}).catch(err => {
-  console.log('MongoDB connection error:', err);
-});
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
 
 
 
