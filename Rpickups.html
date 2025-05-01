@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Receiver Pickups | FoodSave</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-x..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --primary: #27ae60;
+      --bg: #f4f6f9;
+      --white: #fff;
+      --dark: #2c3e50;
+      --light-gray: #eaecef;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--dark);
+    }
+
+    /* Navbar */
+    .nav-bar {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-links a {
+      color: #fff;
+      margin-left: 1.2rem;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+
+    /* Page Header */
+    .page-header {
+      padding: 2rem 2rem 1rem;
+      text-align: center;
+    }
+
+    .page-header h2 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    /* Table Section */
+    .pickup-container {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      max-width: 1000px;
+      margin: 1rem auto 2rem;
+      padding: 2rem;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    th {
+      background-color: #f8f9fa;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+      font-size: 0.85rem;
+    }
+
+    tr:hover {
+      background-color: #f1fdf4;
+    }
+
+    .status {
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+
+    .status.pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status.completed {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        margin-top: 0.5rem;
+      }
+
+      .pickup-container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="nav-bar">
+    <div class="nav-title">FoodSave Receiver</div>
+    <div class="nav-links">
+      <a href="Rdashboard.html">Dashboard</a>
+      <a href="Rhistory.html">History</a>
+      <a href="notifications.html">Notifications</a>
+      <a href="Rprofile.html">Profile</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="page-header">
+    <h2>Pending Pickups</h2>
+  </header>
+
+  <!-- Pickup Table -->
+  <section class="pickup-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Donor</th>
+          <th>Food Type</th>
+          <th>Quantity</th>
+          <th>Expiry Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Local Restaurant</td>
+          <td>Cooked Meals</td>
+          <td>50 portions</td>
+          <td>2025-04-20</td>
+          <td><span class="status pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td>FreshMart</td>
+          <td>Fruits</td>
+          <td>25 kg</td>
+          <td>2025-04-19</td>
+          <td><span class="status pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td>City Bakery</td>
+          <td>Bread</td>
+          <td>80 loaves</td>
+          <td>2025-04-18</td>
+          <td><span class="status pending">Pending</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</body>
+</html>

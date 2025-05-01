@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Subscriber List</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+  
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+      color: #2c3e50;
+    }
+  
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px 30px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  
+    li {
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      background: #f1f1f1;
+      border-left: 5px solid #3498db;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+  
+    li:hover {
+      background: #e0f0ff;
+    }
+  
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      background: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+  
+    a:hover {
+      background: #2980b9;
+    }
+  </style>
+  
+</head>
+<body>
+  <h1>All Subscribers</h1>
+  <ul>
+    <% emails.forEach(email => { %>
+      <li><%= email %></li>
+    <% }); %>
+  </ul>
+  <a href="/">Back to Home</a>
+</body>
+</html>

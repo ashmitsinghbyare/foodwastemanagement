@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Waste Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #edeff146;
+      overflow-x: hidden;
+    }
+    /* Modify navbar layout */
+/* Navbar Styles */
+.logo{
+  font-size: 20px;
+  font-weight: 700;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #818680;
+  color: white;
+  padding: 9px 30px;
+  width: 100%;
+  border-radius: 0 0 20px 20px;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  flex-wrap: wrap;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: top 0.3s;
+  height: 85px;
+
+}
+
+/* Navbar Links Styling */
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  padding: 10px;
+  transition: color 0.3s, background-color 0.3s;
+  border-radius: 5px;
+}
+
+.nav-links li a:hover {
+  color: #06C167; /* Green color on hover */
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+.search-container {
+      display: flex;
+      align-items: center;
+      background: #f1f1f1;
+      padding: 6px 12px;
+      border-radius: 25px;
+      min-width: 220px;
+    }
+
+    .search-icon {
+      color: #333;
+      margin-right: 8px;
+    }
+
+    .search-bar {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+      width: 100%;
+    }
+
+
+
+/* Profile Dropdown Styling */
+.profile-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-dropdown img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  transition: transform 0.2s ease-in-out;
+}
+
+.profile-dropdown img:hover {
+  transform: scale(1.1);
+}
+
+.profile-name {
+  color: white;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.profile-name:hover {
+  color: #06C167;
+}
+
+.dropdown-arrow {
+  margin-left: 6px;
+  color: white;
+  font-size: 12px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  color: #333;
+  min-width: 180px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+}
+
+.dropdown-menu a {
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.dropdown-menu a:hover {
+  background: #f0f0f0;
+}
+
+.dropdown-menu a:last-child {
+  border-bottom: none;
+}
+
+.profile-dropdown.show .dropdown-menu {
+  display: flex;
+}
+
+/* Login/Signup Buttons */
+/*
+.nav-buttons .btn {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.login-btn:hover {
+  background: white;
+  color: #06C167;
+}
+
+.signup-btn {
+  background: #06C167;
+  color: white;
+}
+
+.signup-btn:hover {
+  background: #049a54;
+}
+*/
+.nav-buttons .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-left: 10px;
+      gap: 40px;
+      margin-top: 2px;
+    }
+
+    .login-btn {
+      background: rgb(224, 228, 215);
+      color: #0b0c0c;;
+      border: 2px solid #302b35;;
+      border-radius: 18px;
+      width: 50px;
+      height: 30px;
+      margin-top: 2px;
+      font-weight: 700px;
+       
+    }
+
+    .login-btn:hover {
+      background: white;
+      color: #06C167;
+    }
+
+    .signup-btn {
+      background: #06C167;
+      color: white;
+      border-radius: 18px;
+      width: 60px;
+      height: 30px;
+    
+      
+    }
+
+    .signup-btn:hover {
+      background: #049a54;
+    }
+
+
+    
+    /* Sidebar */
+    .sidebar {
+      width: 190px;
+      background-color: #2c3e50;
+      overflow-x: hidden;
+      height: 100vh;
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 70px;
+      z-index: 999;
+      cursor: pointer; 
+      margin-top: 17px;
+    }
+
+    .sidebar.show {
+      display: block;
+    }
+
+    .sidebar .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar .logo i {
+      margin-right: 10px;
+      color: #06C167;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar-menu li {
+      display: flex;
+      align-items: center;
+      padding: 15px 10px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .sidebar-menu li i {
+      font-size: 20px;
+      margin-right: 10px;
+      color: #06C167;
+    }
+
+    .sidebar-menu li:hover {
+      background-color: #34495e;
+    }
+
+    .container {
+      padding: 120px 20px 20px 20px;
+      text-align: center;
+    }
+
+    .dashboard-options {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .dashboard-card {
+      background: white;
+      padding: 20px;
+      width: 250px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #333;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    .dashboard-card i {
+      font-size: 40px;
+      color: #06C167;
+    }
+
+    .dashboard-card:hover {
+      background: #06C167;
+      color: white;
+    }
+
+    .dashboard-card:hover i {
+      color: white;
+    }
+
+    .dashboard-card h2 {
+      margin-top: 10px;
+    }
+
+    .heading {
+      font-weight: 700;
+      text-align: center;
+      color: #2c3e50;
+      font-size: 2.5em;
+      margin: 40px 0 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .fake {
+      color: #28e87b;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .pickup p {
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .delivery {
+      width: 40vw;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      margin-top: 40px;
+      margin-bottom: 30px;
+    }
+
+    .para {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .images {
+      display: flex;
+      animation: slideImages 20s linear infinite;
+    }
+
+    .images img {
+      width: 300px;
+      margin: 0 5px;
+    }
+
+    @keyframes slideImages {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-1800px);
+      }
+    }
+
+    /* Footer Styles */
+    footer {
+      background: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 30px 20px;
+      background-color: #2c2c2c;
+      color: #ffffff;
+    }
+
+    .footer-section {
+      flex: 1 1 250px;
+      margin: 10px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 15px;
+      color: #06C167;
+    }
+
+    .footer-section p,
+    .footer-section ul,
+    .footer-section form {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section ul li a:hover {
+      color: #06C167;
+    }
+
+    .footer-section form {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .footer-section input[type="email"] {
+      padding: 8px 10px;
+      border: none;
+      border-radius: 4px;
+      width: 70%;
+    }
+
+    .footer-section button {
+      background-color: #06C167;
+      border: none;
+      padding: 8px 12px;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .footer-section button:hover {
+      background-color: #049a54;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      background-color: #222;
+      padding: 15px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .social-icons a {
+      color: white;
+      margin: 0 8px;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    #insta:hover {
+      color: #f735d0;
+    }
+
+    #twit:hover {
+      color: #34aedb;
+    }
+
+    #face:hover {
+      color: #6634db;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-section {
+        margin-bottom: 20px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-left">
+      <button id="sidebarToggle" class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+      <div class="logo">food<b style="color: #06C167;">Save</b></div>
+    </div>
+  
+    <ul class="nav-links">
+      <li><a href="home.html" class="active">Home</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="help.html">Help Centre</a></li>
+    </ul>
+  
+    <!-- Profile Dropdown to the left of the search bar -->
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-bar" placeholder="Search...">
+    </div>
+  
+    <div class="navbar-right">
+      <!-- Profile Image Dropdown -->
+      <div class="profile-dropdown" id="profileDropdown">
+        <img src="https://i.pravatar.cc/150?img=12" alt="User Profile" />
+        <span class="profile-name" id="username">John Doe</span>
+        <i class="fas fa-chevron-down dropdown-arrow"></i>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="profile.html"><i class="fas fa-user"></i> View Profile</a>
+          <a href="setting.html"><i class="fas fa-cog"></i> Account Settings</a>
+          <a href="addaccount.html"><i class="fas fa-user-plus"></i> Add Another Account</a>
+          <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+  
+      <!-- Login/Signup Buttons -->
+      <button class="btn login-btn" onclick="window.location.href='login.html'">Login</button>
+      <button class="btn signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+    </div>
+  </nav>
+  
+
+  <!-- Sidebar & Main content continue as is... -->
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <i class="fas fa-seedling"></i> foodSave
+  </div>
+  <ul class="sidebar-menu">
+    <li onclick="location.href='home.html'"><i class="fas fa-home"></i>Home</li>
+    <li onclick="location.href='donor-dashboard.html'"><i class="fas fa-hand-holding-heart"></i>Donor Dashboard</li>
+    <li onclick="location.href='receiver-dashboard.html'"><i class="fas fa-utensils"></i>Receiver Dashboard</li>
+    <li onclick="location.href='admin-dashboard.html'"><i class="fas fa-user-shield"></i>Admin Dashboard</li>
+    <li onclick="location.href='setting.html'"><i class="fas fa-cog"></i>Settings</li>
+  </ul>
+</aside>
+
+<!-- Main Content -->
+<div class="container" id="mainContainer">
+  <h1>Welcome to Food Waste Management System</h1>
+  <p>Donate, receive, and manage food efficiently.</p>
+
+  <div class="dashboard-options">
+    <a href="donor-dashboard.html" class="dashboard-card">
+      <i class="fas fa-hand-holding-heart"></i>
+      <h2>Donor Dashboard</h2>
+    </a>
+    <a href="receiver-dashboard.html" class="dashboard-card">
+      <i class="fas fa-utensils"></i>
+      <h2>Receiver Dashboard</h2>
+    </a>
+    <a href="admin-dashboard.html" class="dashboard-card">
+      <i class="fas fa-user-shield"></i>
+      <h2>Admin Dashboard</h2>
+    </a>
+  </div>
+
+  <h2 class="heading"> Our Working Field</h2>
+  <div class="image-container">
+    <p class="para">“Cutting food waste is a delicious way of saving money, helping to feed the world and protect the
+      planet".</p>
+    <div class="images">
+      <img src="feeded.jpg" alt="Image 1">
+      <img src="feeding.jpg" alt="Image 2">
+      <img src="foodd.jpg" alt="Image 3">
+      <img src="foods.jpg" alt="Image 4">
+      <img src="feedi.jpg" alt="Image 5">
+      <img src="feeddd.jpg" alt="Image 6">
+          <!-- Duplicate set for seamless looping -->
+          <img src="feeded.jpg" alt="Image 1">
+          <img src="feeding.jpg" alt="Image 2">
+          <img src="foodd.jpg" alt="Image 3">
+          <img src="foods.jpg" alt="Image 4">
+          <img src="feedi.jpg" alt="Image 5">
+          <img src="feeddd.jpg" alt="Image 6">
+    </div>
+  </div>
+
+  <div class="pickup">
+    <h3 class="heading">DOOR<span class="fake"> PICKUP</span></h3>
+    <p>"Your donation will be immediately collected and sent to needy people."</p>
+  </div>
+
+  <div class="img">
+    <img class="delivery" src="https://kishor-23.github.io/food-donate/img/delivery.gif" alt="delivery gif">
+  </div>
+</div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>FoodSave is a platform to help reduce food waste by connecting individuals and businesses to redistribute surplus food to those in need.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Subscribe</h3>
+        <form action="#">
+          <input type="email" placeholder="Your email address">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 FoodSave | All Rights Reserved</p>
+      <div class="social-icons">
+        <a href="#" id="insta"><i class="fab fa-instagram"></i></a>
+        <a href="#" id="twit"><i class="fab fa-twitter"></i></a>
+        <a href="#" id="face"><i class="fab fa-facebook-f"></i></a>
+      </div>
+    </div>
+  </footer>
+  <script>
+     const user = {
+      name: "John Doe",
+      image: "https://i.pravatar.cc/150?img=12"
+    };
+
+    document.getElementById('username').textContent = user.name;
+    document.querySelector('.profile-dropdown img').src = user.image;
+
+    // Dropdown toggle
+    const profileDropdown = document.getElementById('profileDropdown');
+    profileDropdown.addEventListener('click', () => {
+      profileDropdown.classList.toggle('show');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!profileDropdown.contains(e.target)) {
+        profileDropdown.classList.remove('show');
+      }
+    });
+    const navbar = document.getElementById('navbar');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+      // Hide the navbar when scrolling down and show it when scrolling up
+      if (currentScroll > lastScrollTop) {
+        navbar.style.top = "-80px";  // Hide navbar when scrolling down
+      } else {
+        navbar.style.top = "0";  // Show navbar when scrolling up
+      }
+
+      // Update lastScrollTop to the current scroll position
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    });
+
+    // Sidebar toggle functionality
+    const sidebar = document.getElementById('sidebar');
+
+sidebarToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('show');
+});
+  </script>
+</body>
+
+</html>

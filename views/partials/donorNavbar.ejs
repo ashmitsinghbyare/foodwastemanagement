@@ -1,0 +1,29 @@
+<nav class="nav-bar" id="navbar">
+    <div class="nav-logo">🥗 FoodSave</div>
+    <div class="nav-user">
+      <% if (user && user.role === 'donor') { %>
+        <% if (user.profileImage) { %>
+          <img 
+            src="<%= user.profileImage %>" 
+            alt="Profile Picture" 
+            style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle;"
+          />
+        <% } else { %>
+          <i class="fas fa-user" style="margin-right: 8px;"></i>
+        <% } %>
+        <span><%= user.name %></span> ▾
+      <% } else { %>
+        <i class="fas fa-user" style="margin-right: 8px;"></i>
+        <span>Donor</span>
+      <% } %>
+ 
+      <div class="dropdown">
+        <a href="/home"><i class="fas fa-home"></i> Home</a>
+        <a href="/history"><i class="fas fa-clock-rotate-left"></i> History</a>
+        <a href="/dprofile"><i class="fas fa-user-cog"></i> Profile</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+  </nav>
+  
+  

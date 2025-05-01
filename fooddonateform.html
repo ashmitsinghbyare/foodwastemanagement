@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Donate</title>
+  <style>
+    body {
+      background-color: #06C167;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .input,
+    .radio {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .image-radio-group {
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+    }
+
+    .image-radio-group input[type="radio"] {
+      display: none;
+    }
+
+    .image-radio-group label {
+      cursor: pointer;
+    }
+
+    .image-radio-group img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      transition: 0.3s;
+    }
+
+    .image-radio-group input[type="radio"]:checked+label img {
+      border-color: #06C167;
+    }
+
+    .btn {
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 30px;
+      font-size: 16px;
+      background-color: #06C167;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #04a554;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form id="foodForm">
+      <p class="logo">Food <b style="color: #06C167;">Donate</b></p>
+
+      <div class="input">
+        <label for="foodname">Food Name:</label>
+        <input type="text" id="foodname" name="foodname" required />
+      </div>
+
+      <div class="radio">
+        <label>Meal type:</label>
+        <input type="radio" name="meal" id="veg" value="veg" required />
+        <label for="veg" style="padding-right: 20px;">Veg</label>
+        <input type="radio" name="meal" id="non-veg" value="non-veg" />
+        <label for="non-veg">Non-veg</label>
+      </div>
+
+      <div class="input">
+        <label>Select the Category:</label>
+        <div class="image-radio-group">
+          <input type="radio" id="raw-food" name="image-choice" value="raw-food">
+          <label for="raw-food">
+            <img src="https://th.bing.com/th/id/OIP.h2lmXf2kycFlt4Pij_pm1AHaE8?w=296&h=197&c=7&r=0&o=5&dpr=1.5&pid=1.7" alt="Raw Food" />
+          </label>
+
+          <input type="radio" id="cooked-food" name="image-choice" value="cooked-food" checked>
+          <label for="cooked-food">
+            <img src="https://th.bing.com/th/id/OIP.f4irx-s8n_hmKKd91HAU-wHaE8?w=273&h=182&c=7&r=0&o=5&dpr=1.5&pid=1.7" alt="Cooked Food" />
+          </label>
+
+          <input type="radio" id="packed-food" name="image-choice" value="packed-food">
+          <label for="packed-food">
+            <img src="https://th.bing.com/th/id/OIP.ZGOnUkedLar28fW8fYCN6QHaEI?w=296&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7" alt="Packed Food" />
+          </label>
+        </div>
+      </div>
+
+      <div class="input">
+        <label for="quantity">Quantity (no. of people or kg):</label>
+        <input type="text" id="quantity" name="quantity" required />
+      </div>
+
+      <p style="text-align: center; font-weight: bold;">Contact Details</p>
+
+      <div class="input">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+
+      <div class="input">
+        <label for="phoneno">Phone No:</label>
+        <input type="text" id="phoneno" name="phoneno" maxlength="10" pattern="[0-9]{10}" required />
+      </div>
+
+      <div class="input">
+        <label for="district">District:</label>
+        <select id="district" name="district" required>
+          <option value="">Select a district</option>
+          <option value="Bhopal">Bhopal</option>
+          <option value="Indore">Indore</option>
+          <option value="Sagar">Sagar</option>
+          <option value="Satna">Satna</option>
+          <option value="Rewa">Rewa</option>
+          <option value="Gwalior">Gwalior</option>
+          <option value="Sehore">Sehore</option>
+          <option value="Raisen">Raisen</option>
+          <option value="Ratlam">Ratlam</option>
+          <option value="Jabalpur">Jabalpur</option>
+          <option value="Mandala">Mandala</option>
+          <option value="Khandawa">Khandawa</option>
+          <option value="Ujjain">Ujjain</option>
+          <option value="Vidisha">Vidisha</option>
+          <option value="Morena">Morena</option>
+          <option value="Shivpuri">Shivpuri</option>
+          <option value="Khargone">Khargone</option>
+          <option value="Narsingpur" selected>Narsingpur</option>
+          <option value="Damoh">Damoh</option>
+          <option value="Panna">Panna</option>
+          <option value="Singrauli">Singrauli</option>
+          <option value="Maihar">Maihar</option>
+          <option value="Tikamgarh">Tikamgarh</option>
+          <option value="Shajapur">Shajapur</option>
+          <option value="Mandsaur">Mandsaur</option>
+          <option value="Neemuch">Neemuch</option>
+          <option value="Dewas">Dewas</option>
+        </select>
+      </div>
+
+      <div class="input">
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required />
+      </div>
+
+      <div class="btn">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('foodForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = {
+        foodname: document.getElementById('foodname').value,
+        meal: document.querySelector('input[name="meal"]:checked')?.value,
+        category: document.querySelector('input[name="image-choice"]:checked')?.value,
+        quantity: document.getElementById('quantity').value,
+        name: document.getElementById('name').value,
+        phoneno: document.getElementById('phoneno').value,
+        district: document.getElementById('district').value,
+        address: document.getElementById('address').value,
+      };
+
+      console.log('Form Submitted:', formData);
+
+      alert("Thank you for donating food! ❤️\nCheck the console for submitted data.");
+      this.reset();
+    });
+  </script>
+</body>
+
+</html>

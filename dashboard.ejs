@@ -1,0 +1,16 @@
+<% layout('layout') -%>
+<h2>Welcome Back, <%= user?.name || 'Guest' %>!</h2>
+<div class="nav-buttons">
+  <a href="/donate" class="nav-button">
+    <i class="fas fa-utensils"></i>
+    Donate Food
+  </a>
+  <a href="/history" class="nav-button">
+    <i class="fas fa-clock-rotate-left"></i>
+    Donation History
+  </a>
+  <a href="/schedule" class="nav-button">
+    <i class="fas fa-truck"></i>
+    Scheduled Pickups
+  </a>
+</div>

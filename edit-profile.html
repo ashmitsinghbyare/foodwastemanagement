@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile | Food Donate</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 15px 30px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo b {
+      color: #06C167;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger .line {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      margin: 4px 0;
+    }
+
+    nav.nav-bar ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav.nav-bar a {
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      color: white;
+      background-color: #06C167;
+      transition: 0.3s;
+    }
+
+    nav.nav-bar a.active,
+    nav.nav-bar a:hover {
+      background-color: #049a54;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-bar ul {
+        flex-direction: column;
+        background: #06C167;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 200px;
+        display: none;
+        padding: 10px;
+      }
+
+      .nav-bar.active ul {
+        display: flex;
+      }
+    }
+
+    .edit-profile {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .headingline {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #06C167;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      color: #333;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      background-color: #f9f9f9;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #06C167;
+      background-color: #fff;
+    }
+
+    .form-group button {
+      padding: 10px 20px;
+      background-color: #06C167;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    .form-group button:hover {
+      background-color: #049a54;
+    }
+
+    .back-btn {
+      display: inline-block;
+      background-color: #ddd;
+      color: #333;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #bbb;
+    }
+
+    .form-group .error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Food <b>Save</b></div>
+    <div class="hamburger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Edit Profile Section -->
+  <div class="edit-profile">
+    <p class="headingline"><i class="fa fa-user" style="margin-right:10px;"></i>Edit Profile</p>
+
+    <form id="edit-profile-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" value="Jane Doe" required />
+        <div class="error" id="name-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" value="jane.doe@example.com" required />
+        <div class="error" id="email-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+          <option value="female" selected>Female</option>
+          <option value="male">Male</option>
+          <option value="other">Other</option>
+        </select>
+        <div class="error" id="gender-error"></div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Update Profile</button>
+      </div>
+    </form>
+
+    <a href="profile.html" class="back-btn">Back to Profile</a>
+  </div>
+
+  <script>
+    // Hamburger Menu
+    const hamburger = document.querySelector(".hamburger");
+    hamburger.onclick = () => {
+      document.querySelector(".nav-bar").classList.toggle("active");
+    };
+
+    // Form validation logic (Example)
+    const form = document.getElementById("edit-profile-form");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      let valid = true;
+
+      // Validate Name
+      const name = document.getElementById("name").value;
+      if (name.trim() === "") {
+        valid = false;
+        document.getElementById("name-error").textContent = "Name is required.";
+      } else {
+        document.getElementById("name-error").textContent = "";
+      }
+
+      // Validate Email
+      const email = document.getElementById("email").value;
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailPattern.test(email)) {
+        valid = false;
+        document.getElementById("email-error").textContent = "Please enter a valid email address.";
+      } else {
+        document.getElementById("email-error").textContent = "";
+      }
+
+      // Validate Gender
+      const gender = document.getElementById("gender").value;
+      if (gender === "") {
+        valid = false;
+        document.getElementById("gender-error").textContent = "Gender is required.";
+      } else {
+        document.getElementById("gender-error").textContent = "";
+      }
+
+      // If the form is valid, submit the data
+      if (valid) {
+        alert("Profile updated successfully!");
+        // You can add the functionality here to update the profile information (e.g., send the data to the server).
+      }
+    });
+  </script>
+
+</body>
+</html>

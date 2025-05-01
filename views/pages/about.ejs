@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Donate - Sagar</title>
+  <link rel="stylesheet" href="/css/stylee.css">
+</head>
+<body>
+
+  <!-- Minimal Navbar for About Page -->
+  <%- include('../partials/navbar-about', { activePage: 'about' }) %>
+
+  <!-- Main Content -->
+  <p class="title">"Welcome to <u>Food Donate</u> in Sagar"</p>
+
+  <!-- About Section -->
+  <p class="heading" id="about">About Us</p>
+  <div class="para">
+    <p>
+      We are a team of passionate individuals committed to addressing the issue of food waste in India. Our goal is to create a system that connects food donors with charities and NGOs, while also reducing the environmental impact of food waste.
+    </p>
+  </div>
+
+  <!-- Location Map -->
+  <div class="map">
+    <p>Our Location in Sagar</p>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3716.086232844494!2d78.72937877506763!3d23.838370984535125!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981bdb1d6f2d1c1%3A0x1870a548cf2f3dcf!2sSagar%2C%20Madhya%20Pradesh%20470002!5e0!3m2!1sen!2sin!4v1681393031432!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+  <!-- Directions Button -->
+  <div class="directions">
+    <a href="https://www.google.com/maps/dir/?api=1&origin=Sagar,+Madhya+Pradesh&destination=MP+Nagar+Zone+I,+Bhopal,+Madhya+Pradesh" target="_blank">
+      Get Directions to Our Main Office in Bhopal
+    </a>
+  </div>
+
+  <!-- Sagar Info Section -->
+  <p class="heading">About Sagar</p>
+  <div class="para">
+    <p>
+      Sagar is a historic city in Madhya Pradesh, known for its educational heritage and beautiful landscapes. Located centrally, it serves as an important location for our initiative. We collaborate with local organizations and donors to reduce food waste and feed the needy.
+    </p>
+  </div>
+
+  <!-- Hamburger Toggle Script -->
+  <script src="/js/scripts.js"></script>
+</body>
+</html>

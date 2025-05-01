@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Same navigation as support.html -->
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1>Contact Us</h1>
+            <div class="contact-methods">
+                <div class="contact-form">
+                    <h2>Send us a Message</h2>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+                
+                <button id="chat-toggle" class="chat-button">Live Chat</button>
+                <div id="chat-window" class="chat-window">
+                    <div class="chat-header">
+                        <h3>Live Support</h3>
+                    </div>
+                    <div class="chat-body">
+                        <p>Support: Hello! How can we help you today?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

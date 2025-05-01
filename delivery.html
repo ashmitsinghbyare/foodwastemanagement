@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery - Orders</title>
+
+    <!-- External CSS Links -->
+    <link rel="stylesheet" href="../home.css">
+    <link rel="stylesheet" href="delivery.css">
+
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #06C167;
+            color: white;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger .line {
+            width: 25px;
+            height: 3px;
+            margin: 5px 0;
+            background-color: white;
+        }
+
+        /* Navbar */
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            width: 60%;
+        }
+
+        .nav-bar ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-bar li {
+            margin: 0 15px;
+        }
+
+        .nav-bar a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+
+        .nav-bar a.active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        /* Media Query for Hamburger */
+        @media (max-width: 767px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-bar {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #06C167;
+            }
+
+            .nav-bar.active {
+                display: flex;
+            }
+
+            .nav-bar li {
+                margin: 10px 0;
+                text-align: center;
+            }
+        }
+
+        /* Page Content */
+        .welcome-message {
+            text-align: center;
+            font-size: 28px;
+            margin-top: 20px;
+        }
+
+        .itm {
+            background-color: white;
+            display: grid;
+            justify-content: center;
+            margin-top: 50px;
+
+        }
+
+        .itm img {
+           width: 80vw;
+           object-fit: cover;
+           height: 100vh;
+        }
+
+        /* Table Container */
+        .table-container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #06C167;
+            color: white;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #06C167;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #05a757;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #06C167;
+            color: white;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="logo">Food <b style="color: #06C167;">Donate</b></div>
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="openmap.php">Map</a></li>
+                <li><a href="deliverymyord.php">My Orders</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Welcome Message Section -->
+    <h2 class="welcome-message">Welcome, User!</h2>
+
+    <!-- GIF Image Section -->
+    <div class="itm">
+        <img  src="https://cdn.dribbble.com/users/2805850/screenshots/10077286/comp_3.gif"
+            alt="Delivery Gif">
+    </div>
+
+    <!-- Orders Table Section -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone No</th>
+                        <th>Date/Time</th>
+                        <th>Pickup Address</th>
+                        <th>Delivery Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Static Data Simulation -->
+                    <tr>
+                        <td>John Doe</td>
+                        <td>+1234567890</td>
+                        <td>2025-04-12 14:30</td>
+                        <td>1234 Elm Street</td>
+                        <td>5678 Oak Avenue</td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="order_id" value="1">
+                                <input type="hidden" name="delivery_person_id" value="101">
+                                <button type="submit" name="food">Take Order</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>+0987654321</td>
+                        <td>2025-04-13 10:00</td>
+                        <td>789 Pine Street</td>
+                        <td>123 Maple Avenue</td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="order_id" value="2">
+                                <input type="hidden" name="delivery_person_id" value="102">
+                                <button type="submit" name="food">Take Order</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2025 Food Donate | All Rights Reserved</p>
+    </div>
+
+    <!-- Hamburger Menu JS -->
+    <script>
+        const hamburger = document.querySelector(".hamburger");
+        hamburger.onclick = function () {
+            const navBar = document.querySelector(".nav-bar");
+            navBar.classList.toggle("active");
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Recovery</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .recovery-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .back-to-login {
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="recovery-container">
+        <h2>Password Recovery</h2>
+        <p>Enter your email to reset your password</p>
+        
+        <form id="recoveryForm">
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Send Reset Link</button>
+        </form>
+        
+        <div class="back-to-login">
+            <a href="login.html">Back to Login</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('recoveryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Add actual password reset logic here
+            const email = document.getElementById('email').value;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('Reset link sent to ' + email);
+                window.location.href = 'login.html';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

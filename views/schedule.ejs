@@ -1,0 +1,100 @@
+<!-- views/schedule.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scheduled Pickups | FoodSave</title>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/schedule.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <%- include('partials/scheduleNavbar', { userType: 'Donor' }) %>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <h2>Your Scheduled Pickups</h2>
+    <div class="pickups-section" id="pickupCards">
+      <% if (pickups.length > 0) { %>
+        <% pickups.forEach(pickup => { %>
+          <div class="pickup-card">
+            <i class="fas fa-truck"></i>
+            <h3>Pickup Slot</h3>
+            <p><strong>Time:</strong> <%= new Date(pickup.pickupTime).toLocaleString() %></p>
+            <p><strong>Status:</strong> <%= pickup.status %></p>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No scheduled pickups.</p>
+      <% } %>
+    </div>
+  </div>
+  
+
+  <!-- JAVASCRIPT TOGGLE NAV ON SCROLL -->
+  <script>
+    let lastScrollTop = 0;
+    const navbar = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop) {
+        navbar.style.top = "-80px";
+      } else {
+        navbar.style.top = "0";
+      }
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+  </script>
+
+  <!-- Load Pickups from Backend -->
+  <script>
+    async function loadPickups() {
+      try {
+        const response = await fetch('/api/pickups', {
+          method: 'GET',
+          credentials: 'same-origin',  // Ensure credentials are sent (for user sessions)
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch pickups: ' + response.statusText);
+        }
+  
+        const pickups = await response.json();
+        console.log('Pickups received:', pickups);  // Inspect the response data
+  
+        // Now dynamically update the page with the fetched pickups
+        const pickupCardsContainer = document.getElementById('pickupCards');
+        pickupCardsContainer.innerHTML = ''; // Clear existing cards
+  
+        if (pickups.length > 0) {
+          pickups.forEach(pickup => {
+            const pickupCard = document.createElement('div');
+            pickupCard.classList.add('pickup-card');
+  
+            pickupCard.innerHTML = `
+              <i class="fas fa-truck"></i>
+              <h3>Pickup Slot</h3>
+              <p><strong>Time:</strong> ${new Date(pickup.pickupTime).toLocaleString()}</p>
+              <p><strong>Status:</strong> ${pickup.status}</p>
+            `;
+  
+            pickupCardsContainer.appendChild(pickupCard);
+          });
+        } else {
+          pickupCardsContainer.innerHTML = '<p>No scheduled pickups.</p>';
+        }
+      } catch (err) {
+        console.error('Error loading pickups:', err);
+      }
+    }
+  
+    document.addEventListener('DOMContentLoaded', loadPickups);
+  </script>
+  
+ 
+
+</body>
+</html>

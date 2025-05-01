@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Receiver Notifications | FoodSave</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #27ae60;
+      --white: #fff;
+      --gray-light: #f4f6f9;
+      --gray-dark: #333;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: var(--gray-light);
+      color: var(--gray-dark);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notification-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .clear-all {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .notification-list {
+      margin-top: 1rem;
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .notification-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #eee;
+      transition: background 0.2s ease;
+    }
+
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+
+    .notification-item:hover {
+      background-color: #f9f9f9;
+    }
+
+    .notification-item i {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-top: 3px;
+    }
+
+    .notification-text {
+      flex: 1;
+    }
+
+    .notification-text p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .notification-time {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 0.3rem;
+    }
+
+    @media (max-width: 600px) {
+      .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Include Receiver Notifications Navbar -->
+  <%- include('partials/RnotificationNavbar') %>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="notification-header">
+      <h2>Notifications</h2>
+      <form action="/clear" method="POST">
+        <button type="submit" class="clear-all">Clear All</button>
+      </form>
+    </div>
+    <div class="notification-list" id="notificationList">
+      <% if (notifications.length === 0) { %>
+        <p style="text-align: center; padding: 2rem;">No notifications.</p>
+      <% } else { %>
+        <% notifications.forEach(n => { %>
+          <div class="notification-item">
+            <i class="fa-solid <%= n.icon %>"></i>
+            <div class="notification-text">
+              <p><%- n.message %></p> <!-- Render HTML in message -->
+              <div class="notification-time">
+                <%= new Date(n.createdAt).toLocaleString() %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+    
+  </div>
+
+  <!-- JS to clear notifications -->
+  <script>
+    // Optional: Implement client-side logic if needed
+  </script>
+</body>
+</html>

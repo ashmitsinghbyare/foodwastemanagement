@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Stats | FoodSave</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --primary: #06C167;
+      --hover: #04a554;
+      --bg: #f5f7fa;
+      --text: #2c3e50;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    /* NAVBAR */
+    .nav-bar {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: var(--text);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      transition: top 0.3s;
+    }
+
+    .nav-logo {
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+
+    .nav-user {
+      position: relative;
+      cursor: pointer;
+      margin-right: 38px;
+    }
+
+    .nav-user:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: var(--text);
+      border-radius: 5px;
+      box-shadow: var(--shadow);
+      min-width: 180px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .dropdown a {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+
+    .dropdown a i {
+      margin-right: 10px;
+      min-width: 20px;
+    }
+
+    .dropdown a:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 120px;
+      padding-bottom: 50px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 2rem;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      display: flex;
+      justify-content: space-evenly;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      color: var(--text);
+      padding: 1.5rem;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    /* ICONS */
+    .stat-card i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition */
+    }
+
+    .stat-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .stat-card p {
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    /* HOVER EFFECTS */
+    .stat-card:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-4px);
+    }
+
+    .stat-card:hover i {
+      transform: scale(1.1); /* Slightly enlarge the icon on hover */
+      color: var(--white); /* Change the icon color on hover */
+    }
+
+    .stat-card:hover h3 {
+      color: white;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .stats-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stat-card {
+        width: 80%;
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <%- include('partials/statsNavbar', { userType: 'Donor' }) %> <!-- Include stats-specific navbar -->
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <h2>Your Stats</h2>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <!-- Total Donated Card -->
+      <div class="stat-card">
+        <i class="fas fa-box-open"></i>
+        <h3>Total Donated</h3>
+        <p><%= totalDonated %> kg</p> <!-- Render total donated dynamically -->
+      </div>
+
+      <!-- Scheduled Pickups Card -->
+      <div class="stat-card">
+        <i class="fas fa-truck"></i>
+        <h3>Scheduled Pickups</h3>
+        <p><%= scheduledPickups %> pickups</p> <!-- Render scheduled pickups dynamically -->
+      </div>
+
+      <!-- Expiring Soon Card -->
+      <div class="stat-card">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>Expiring Soon</h3>
+        <p><%= expiringSoon %> items</p> <!-- Render expiring soon items dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT TOGGLE NAV ON SCROLL -->
+  <script>
+    let lastScrollTop = 0;
+    const navbar = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop) {
+        navbar.style.top = "-80px";
+      } else {
+        navbar.style.top = "0";
+      }
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+  </script>
+
+</body>
+</html>

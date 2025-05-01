@@ -1,0 +1,235 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('food-waste-bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 450px;
+    transition: transform 0.3s ease;
+}
+
+.login-container:hover {
+    transform: translateY(-5px);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo i {
+    font-size: 2.8rem;
+    color: #27ae60;
+    margin-bottom: 10px;
+}
+
+.logo h1 {
+    color: #2c3e50;
+    font-size: 1.9rem;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.input-icon {
+    position: relative;
+}
+
+.input-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+.input-icon input,
+.input-icon select {
+    width: 100%;
+    padding: 12px 20px 12px 42px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-icon input:focus,
+.input-icon select:focus {
+    outline: none;
+    border-color: #27ae60;
+    box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+}
+
+.input-icon select {
+    appearance: none;
+    background: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%237f8c8d' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 15px center;
+    background-size: 12px;
+    padding-right: 40px;
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.remember-me input {
+    accent-color: #27ae60;
+}
+
+.forgot-password {
+    color: #27ae60;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+    background: #219653;
+}
+
+.alert {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    display: none;
+}
+
+.alert-error {
+    background: #fee;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert-success {
+    background: #e8f9e9;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+/* Custom Dropdown */
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-dropdown select {
+    display: none;
+}
+
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Pushes icons to edges */
+    padding: 12px 20px;
+    width: 100%;
+    background-color: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.dropdown-btn i:first-child {
+    margin-right: 10px;
+}
+
+.dropdown-btn i:last-child {
+    margin-left: auto;
+    color: #7f8c8d;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.dropdown-content div {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdown-content div:hover {
+    background-color: #f0f2f5;
+}
+
+.custom-dropdown.active .dropdown-content {
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        margin: 20px;
+        padding: 30px;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+}

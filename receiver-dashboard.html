@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Receiver Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #27ae60;
+      --light-bg: #f4f6f9;
+      --white: #fff;
+      --dark-text: #2c3e50;
+      --gray-text: #6c757d;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+    }
+
+    /* NAVBAR */
+    .nav-bar {
+      background-color: var(--primary);
+      color: white;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .profile-dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile-dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background-color: white;
+      color: #333;
+      box-shadow: var(--shadow);
+      border-radius: 6px;
+      min-width: 160px;
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #333;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .dashboard-box {
+      background: var(--white);
+      padding: 2rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .dashboard-box:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .dashboard-box i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .dashboard-box h3 {
+      margin: 0.8rem 0 0;
+      font-size: 1.2rem;
+    }
+
+    /* SECTIONS */
+    .section {
+      display: none;
+      background: var(--white);
+      padding: 2rem;
+      margin-top: 2rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.6rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f9f9f9;
+      color: var(--gray-text);
+    }
+
+    /* FORM & PROFILE */
+    input[type="text"] {
+      padding: 0.6rem;
+      width: 100%;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+
+    ul {
+      padding-left: 1rem;
+    }
+
+    ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    /* RESPONSIVENESS */
+    @media (max-width: 600px) {
+      .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      .dashboard-box i {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="nav-bar">
+    <div class="nav-title">FoodSave Receiver</div>
+    <div class="profile-dropdown">
+      <i class="fa-solid fa-user"></i> Profile ▼
+      <div class="dropdown-content">
+        <a href="home.html">Home</a>
+        <a href="Rprofile.html">Edit Profile</a>
+        <a href="setting.html">Settings</a>
+        <a href="logout.html">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <!-- DASHBOARD BOXES -->
+    <div class="dashboard-grid">
+      <a href="Rpickups.html" class="dashboard-box">
+        <i class="fa-solid fa-truck"></i>
+        <h3>Pickups</h3>
+      </a>
+      <a href="Rhistory.html" class="dashboard-box">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <h3>History</h3>
+      </a>
+      <a href="notifications.html" class="dashboard-box">
+        <i class="fa-solid fa-bell"></i>
+        <h3>Notifications</h3>
+      </a>
+      <a href="Rprofile.html" class="dashboard-box">
+        <i class="fa-solid fa-user-gear"></i>
+        <h3>Profile</h3>
+      </a>
+    </div>
+
+    <!-- SECTION: PICKUPS -->
+    <div id="pickups" class="section">
+      <h2>Pending Pickups</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Donor</th>
+            <th>Food Type</th>
+            <th>Quantity</th>
+            <th>Expiry</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Local Restaurant</td>
+            <td>Cooked Meals</td>
+            <td>50 portions</td>
+            <td>2025-04-20</td>
+            <td>Pending</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION: HISTORY -->
+    <div id="history" class="section">
+      <h2>Pickup History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Donor</th>
+            <th>Food</th>
+            <th>Quantity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-04-10</td>
+            <td>SuperMart</td>
+            <td>Vegetables</td>
+            <td>30 kg</td>
+            <td>Completed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION: NOTIFICATIONS -->
+    <div id="notifications" class="section">
+      <h2>Notifications</h2>
+      <ul>
+        <li>🔔 New pickup available from SuperMart (2 hrs ago)</li>
+        <li>✅ Pickup confirmed with Bakery (Yesterday)</li>
+      </ul>
+    </div>
+
+    <!-- SECTION: PROFILE -->
+    <div id="profile" class="section">
+      <h2>Profile</h2>
+      <label>Organization Name:
+        <input type="text" value="Community Food Bank" />
+      </label>
+      <label>Contact Email:
+        <input type="text" value="contact@cfb.org" />
+      </label>
+      <label>Phone:
+        <input type="text" value="+1234567890" />
+      </label>
+    </div>
+  </div>
+
+  <!-- SCRIPT TO TOGGLE SECTIONS -->
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

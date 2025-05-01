@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Donate</title>
+  <style>
+    body {
+      background-color: #06C167;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .input,
+    .radio {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .image-radio-group {
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+    }
+
+    .image-radio-group input[type="radio"] {
+      display: none;
+    }
+
+    .image-radio-group label {
+      cursor: pointer;
+    }
+
+    .image-radio-group img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      transition: 0.3s;
+    }
+
+    .image-radio-group input[type="radio"]:checked+label img {
+      border-color: #06C167;
+    }
+
+    .btn {
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 30px;
+      font-size: 16px;
+      background-color: #06C167;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #04a554;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form id="foodForm" action="/food-donate" method="POST">
+      <p class="logo">Food <b style="color: #06C167;">Donate</b></p>
+
+      <!-- Food Name -->
+      <div class="input">
+        <label for="foodname">Food Name:</label>
+        <input type="text" id="foodname" name="foodname" value="<%= foodname || '' %>" required />
+      </div>
+
+      <!-- Meal Type -->
+      <div class="radio">
+        <label>Meal type:</label>
+        <input type="radio" name="meal" id="veg" value="veg" <%=meal==='veg' ? 'checked' : '' %> required />
+        <label for="veg" style="padding-right: 20px;">Veg</label>
+        <input type="radio" name="meal" id="non-veg" value="non-veg" <%=meal==='non-veg' ? 'checked' : '' %> />
+        <label for="non-veg">Non-veg</label>
+      </div>
+
+      <!-- Food Category -->
+      <div class="input">
+        <label>Select the Category:</label>
+        <div class="image-radio-group">
+          <input type="radio" id="raw-food" name="image-choice" value="raw-food" <%=category==='raw-food' ? 'checked'
+            : '' %> />
+          <label for="raw-food">
+            <img src="https://th.bing.com/th/id/OIP.h2lmXf2kycFlt4Pij_pm1AHaE8?w=296&h=197&c=7&r=0&o=5&dpr=1.5&pid=1.7"
+              alt="Raw Food" />
+          </label>
+
+          <input type="radio" id="cooked-food" name="image-choice" value="cooked-food" <%=category==='cooked-food'
+            ? 'checked' : 'checked' %> />
+          <label for="cooked-food">
+            <img src="https://th.bing.com/th/id/OIP.f4irx-s8n_hmKKd91HAU-wHaE8?w=273&h=182&c=7&r=0&o=5&dpr=1.5&pid=1.7"
+              alt="Cooked Food" />
+          </label>
+
+          <input type="radio" id="packed-food" name="image-choice" value="packed-food" <%=category==='packed-food'
+            ? 'checked' : '' %> />
+          <label for="packed-food">
+            <img src="https://th.bing.com/th/id/OIP.ZGOnUkedLar28fW8fYCN6QHaEI?w=296&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7"
+              alt="Packed Food" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Expiration Date -->
+      <div class="input">
+        <label for="expirationDate">Expiration Date:</label>
+        <input type="date" id="expirationDate" name="expirationDate" required />
+      </div>
+
+
+
+      <!-- Quantity -->
+      <div class="input">
+        <label for="quantity">Quantity (no. of people or kg):</label>
+        <input type="text" id="quantity" name="quantity" value="<%= quantity || '' %>" required />
+      </div>
+
+      <p style="text-align: center; font-weight: bold;">Contact Details</p>
+
+      <!-- Name -->
+      <div class="input">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= name || '' %>" required />
+      </div>
+
+      <!-- Phone Number -->
+      <div class="input">
+        <label for="phoneno">Phone No:</label>
+        <input type="text" id="phoneno" name="phoneno" maxlength="10" pattern="[0-9]{10}" value="<%= phoneno || '' %>"
+          required />
+      </div>
+      <!-- Pincode -->
+<div class="input">
+  <label for="pincode">Pincode:</label>
+  <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" maxlength="6" required />
+</div>
+
+
+      <!-- District -->
+      <div class="input">
+        <label for="district">District:</label>
+        <select id="district" name="district" required>
+          <option value="">Select a district</option>
+          <% const districts=["Bhopal", "Indore" , "Sagar" , "Satna" , "Rewa" , "Gwalior" , "Sehore" , "Raisen"
+            , "Ratlam" , "Jabalpur" , "Mandala" , "Khandawa" , "Ujjain" , "Vidisha" , "Morena" , "Shivpuri" , "Khargone"
+            , "Narsingpur" , "Damoh" , "Panna" , "Singrauli" , "Maihar" , "Tikamgarh" , "Shajapur" , "Mandsaur"
+            , "Neemuch" , "Dewas" ]; %>
+            <% districts.forEach(function(district) { %>
+              <option value="<%= district %>" <%=district===selectedDistrict ? 'selected' : '' %>><%= district %>
+              </option>
+              <% }) %>
+        </select>
+      </div>
+
+      <!-- Address -->
+      <div class="input">
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" value="<%= address || '' %>" required />
+      </div>
+      <!-- Add this to the food-donate form -->
+      <div class="input">
+        <label for="pickupTime">Pickup Time:</label>
+        <input type="datetime-local" id="pickupTime" name="pickupTime" required min="<%= new Date().toISOString().slice(0, 16) %>">
+
+      </div>
+
+
+      <!-- Submit Button -->
+      <div class="btn">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+
+    document.getElementById('foodForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = {
+        foodname: document.getElementById('foodname').value,
+        meal: document.querySelector('input[name="meal"]:checked')?.value,
+        category: document.querySelector('input[name="image-choice"]:checked')?.value,
+        quantity: document.getElementById('quantity').value,
+        expirationDate: document.getElementById('expirationDate').value,
+        name: document.getElementById('name').value,
+        phoneno: document.getElementById('phoneno').value,
+        district: document.getElementById('district').value,
+        address: document.getElementById('address').value,
+        pincode: document.getElementById('pincode').value,
+        pickupTime: document.getElementById('pickupTime').value,
+
+        
+      };
+
+      try {
+        const response = await fetch('/food-donate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          alert("✅ Thank you for donating food!");
+          this.reset();
+        } else {
+          alert("❌ Something went wrong. Please try again.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("🚨 Error submitting form.");
+      }
+    });
+  </script>
+
+</body>
+
+</html>

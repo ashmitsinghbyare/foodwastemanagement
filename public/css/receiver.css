@@ -1,0 +1,228 @@
+:root {
+  --primary: #27ae60;
+  --light-bg: #f4f6f9;
+  --white: #fff;
+  --dark-text: #2c3e50;
+  --gray-text: #6c757d;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: var(--light-bg);
+  color: var(--dark-text);
+}
+
+/* NAVBAR */
+.nav-bar {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 80px;
+}
+
+.nav-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.Na {
+  color: #e0e0e0;
+  margin: 0 10px;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.Na:hover {
+  color: var(--white);
+}
+
+.profile-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: var(--white);
+  color: #333;
+  box-shadow: var(--shadow);
+  border-radius: 6px;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.dashboard-box {
+  background: var(--white);
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dashboard-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard-box i {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.dashboard-box h3 {
+  margin-top: 0.8rem;
+  font-size: 1.2rem;
+}
+
+/* Sections */
+.section {
+  background: var(--white);
+  padding: 2rem;
+  margin: 40px 0;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.6rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+th {
+  background-color: #f9f9f9;
+  color: var(--gray-text);
+}
+
+/* Order Cards */
+.order-card {
+  background: var(--white);
+  border-left: 5px solid var(--primary);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-card p {
+  margin: 6px 0;
+}
+
+/* Buttons */
+.btn-confirm {
+  margin-top: 10px;
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 8px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-confirm:hover {
+  background-color: #219150;
+}
+
+/* Forms */
+input[type="text"] {
+  padding: 0.6rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+/* Notification List */
+ul {
+  padding-left: 1rem;
+}
+
+ul li {
+  margin-bottom: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .nav-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dashboard-box i {
+    font-size: 2rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

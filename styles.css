@@ -1,0 +1,466 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #edeff1;
+
+}
+    html , body{
+        overflow-x:hidden;
+    }
+
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #818680;
+    color: white;
+    padding: 10px 25px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    transition: top 0.4s;
+    border-radius: 0 0 16px 16px; /* Rounded bottom corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-left .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.nav-links li a.active,
+.nav-links li a:hover {
+    background-color: #06C167;
+    color: white;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+    padding: 5px 12px;
+    border-radius: 25px;
+    max-width: 250px;
+}
+
+.search-icon {
+    color: #333;
+    margin-right: 8px;
+}
+
+.search-bar {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+}
+
+.nav-buttons .btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.login-btn {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.signup-btn {
+    background: #06C167;
+    color: white;
+}
+
+.login-btn:hover {
+    background: white;
+    color: #06C167;
+}
+
+.signup-btn:hover {
+    background: #049a54;
+}
+
+/* Optional: Responsive navbar stacking */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-right {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .search-container {
+        width: 100%;
+        max-width: none;
+    }
+
+    .nav-buttons {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .nav-links {
+        justify-content: flex-start;
+        width: 100%;
+    }
+}
+
+
+
+/* Basic navbar styles */
+/* Basic navbar styles */
+/* Navbar Styles */
+
+
+.foot {
+    display: flex;
+    justify-content: space-between; /* Space between the elements */
+    align-items: center; /* Center align items vertically */
+    padding: 10px 20px;
+    background-color: #333; /* Optional: for better visibility */
+    color: white; /* Optional: for better visibility */
+}
+
+.foot1, .foot2, .social-icons {
+    display: inline-block; /* Ensures elements are inline */
+    margin-right: 20px; /* Optional: for spacing between elements */
+}
+
+.social-icons a {
+    margin-left: 10px; /* Space between icons */
+    color: white;
+    text-decoration: none;
+}
+
+/*.social-icons a:hover {
+    color: #3498db; 
+}
+*/
+#insta:hover {
+    color: #f735d0; /* Change color to blue on hover */
+}
+#twit:hover {
+    color: #34aedb; /* Change color to blue on hover */
+}
+
+#face:hover {
+    color: #6634db; /* Change color to blue on hover */
+}
+
+
+
+
+
+
+
+
+
+
+/*new one */
+.navbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: #818680;
+    color: white;
+    padding: 10px 15px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    justify-content: last baseline;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.search-container .search-bar {
+    padding: 8px;
+    border: none;
+    border-radius: 23px;
+    width: 250px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #222;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: left 0.3s ease-in-out;
+    padding-top: 60px;
+    z-index: 1100;
+    
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+/* Sidebar Menu */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    padding: 15px;
+}
+
+.sidebar-menu li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* Main Content */
+.container {
+    margin-top: 100px;
+    text-align: center;
+}
+
+/* Dashboard Options */
+.dashboard-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.dashboard-card {
+    background: #fff;
+    padding: 20px;
+    text-align: center;
+    width: 250px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: #333;
+    transition: 0.3s;
+}
+
+.dashboard-card i {
+    font-size: 40px;
+    color: #007bff;
+}
+
+.dashboard-card h2 {
+    margin-top: 10px;
+}
+
+.dashboard-card:hover {
+    background: #007bff;
+    color: white;
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 15px;
+    margin: 9px;
+    border: none;
+    cursor: pointer;
+    border-radius: 18px;
+    margin-right: 12px;
+    gap: 12px;
+
+
+}
+
+.login-btn {
+    background: #28a745;
+    color: white;
+}
+
+.signup-btn {
+    background: #dc3545;
+    color: white;
+    margin-right: 15px;
+}
+
+  
+  .heading {
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2.5em;
+    margin: 30px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 17px;
+  }
+  
+ /* chatgpt updated */
+ 
+  
+  /*
+.image-container {
+    text-align: center; /* Optional: center-align images 
+}
+.image-container img {
+    display: inline-block;
+    margin: 10px; /* Optional: add space between images 
+}*/
+
+
+/* Basic container setup */
+/* Basic container setup */
+.image-container {
+    position: relative;
+    width: 100%;
+    margin-top: 55px;
+    margin-bottom: 25px;
+    overflow: hidden; /* Hide images when sliding out */
+}
+
+.para {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.7); /* Make the paragraph slightly visible */
+    padding: 10px;
+    z-index: 1; /* Keep paragraph above images */
+}
+
+/* Image container setup to enable horizontal scrolling */
+.images {
+    display: flex;
+    animation: slideImages 20s linear infinite;
+   
+}
+
+/* Image styling */
+.images img {
+    width: 300px;
+    height: auto;
+}
+
+/* Animation for cyclic sliding */
+@keyframes slideImages {
+    0% {
+        transform: translateX(0); /* Start at the first image */
+    }
+    100% {
+        transform: translateX(-1800px); /* Move all the images to the left, and reach the last duplicate image */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.social-icons a {
+    color: white;
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        left: -100%;
+    }
+
+    .dashboard-options {
+        flex-direction: column;
+        align-items: center;
+    }
+}

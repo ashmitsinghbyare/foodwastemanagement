@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : "FoodSave" %></title>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <% 
+  var hideNavbar = typeof hideNavbar !== 'undefined' ? hideNavbar : false;
+  var isAnalytics = typeof isAnalytics !== 'undefined' ? isAnalytics : false;
+  var isAdmin = typeof isAdmin !== 'undefined' ? isAdmin : false;
+  var isDonor = typeof isDonor !== 'undefined' ? isDonor : false;
+  var isHistory = typeof isHistory !== 'undefined' ? isHistory : false;
+  var isReceiver = typeof isReceiver !== 'undefined' ? isReceiver : false; // ✅ new
+  var noFooter = typeof noFooter !== 'undefined' ? noFooter : false;
+  %>
+  
+  <% if (!hideNavbar) { %> <!-- Navbar will be shown unless explicitly hidden -->
+    <% if (isAnalytics) { %>
+      <%- include('partials/analyticsNavbar', { user }) %>
+    <% } else if (isAdmin) { %>
+      <%- include('partials/adminNavbar', { user }) %>
+    <% } else if (isDonor) { %>
+      <%- include('partials/donorNavbar', { user }) %>
+    <% } else if (isHistory) { %>
+      <%- include('partials/historyNavbar', { user }) %>
+    <% } else if (isReceiver) { %> <!-- ✅ receiver-specific navbar -->
+      <%- include('partials/receiverNavbar', { userType: 'Receiver', user }) %>
+    <% } else { %>
+      <%- include('partials/navbar', { user }) %> <!-- Default navbar -->
+    <% } %>
+  <% } %>
+  
+ 
+<main>
+  <%- body %>
+</main>
+
+<% if (!noFooter) { %>
+  <%- include('partials/footer') %>
+<% } %>
+
+</body>
+</html>

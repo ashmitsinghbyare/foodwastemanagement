@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile - FoodSave</title>
+  <link rel="stylesheet" href="/css/profile.css">
+  <style>
+    /* Navbar Styles */
+    .navbar {
+      background-color: #4caf50;
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #dcedc8;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+    }
+
+    @media screen and (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar-links {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+      }
+
+      .navbar a {
+        margin: 6px 0;
+      }
+      
+    }
+    /* profile.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f0f5f4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #4caf50;
+  font-size: 2rem;
+}
+
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #43a047;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-container {
+    margin: 30px 20px;
+    padding: 20px;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">FoodSave</div>
+    <div class="navbar-links">
+      <a href="/home">Home</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Profile Content -->
+  <div class="profile-container">
+    <h2>My Profile</h2>
+    <form action="/account/viewprofile" method="POST">
+      <label>Name:</label>
+      <input type="text" name="name" value="<%= user.firstName %> <%= user.lastName %>" required />
+
+      <label>Email:</label>
+      <input type="email" name="email" value="<%= user.email %>" required />
+
+      <label>Gender:</label>
+      <select name="gender" required>
+        <option value="Male" <%= user.gender === 'Male' ? 'selected' : '' %>>Male</option>
+        <option value="Female" <%= user.gender === 'Female' ? 'selected' : '' %>>Female</option>
+        <option value="Other" <%= user.gender === 'Other' ? 'selected' : '' %>>Other</option>
+      </select>
+
+      <label>Address:</label>
+      <input type="text" name="address" value="<%= user.address %>" required />
+
+      <label>Pincode:</label>
+      <input type="text" name="pincode" value="<%= user.pincode %>" required />
+
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+</body>
+</html>

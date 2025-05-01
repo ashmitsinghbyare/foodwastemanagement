@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | FoodSave</title>
+  <style>
+    :root {
+      --primary-color: #06C167;
+      --hover-color: #04a554;
+      --bg-light: #f9f9f9;
+      --bg-white: #ffffff;
+      --text-dark: #2c3e50;
+      --border-color: #ddd;
+      --alert-color: #e74c3c;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-light);
+      margin: 0;
+      padding: 0;
+      color: var(--text-dark);
+    }
+
+    .nav-bar {
+      background-color: var(--text-dark);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .nav-bar strong {
+      font-size: 1.2rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .nav-links a:hover {
+      background-color: var(--primary-color);
+    }
+
+    .main-content {
+      padding: 2rem;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      background: var(--bg-white);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+    }
+
+    .stat-card p {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 0.5rem 0 0 0;
+    }
+
+    .alert {
+      color: var(--alert-color);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <div><strong>🥗 FoodSave</strong></div>
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="fooddonateform.html">Donate</a>
+      <a href="history.html">History</a>
+      <a href="profile.html">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Dashboard -->
+  <div class="main-content">
+    <h2>Welcome back, Donor!</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>🕒 Scheduled Pickups</h3>
+        <p id="scheduledCount">2</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>📦 Total Donated</h3>
+        <p id="totalDonated">150 kg</p>
+      </div>
+
+      <div class="stat-card alert">
+        <h3>⚠ Expiring Soon</h3>
+        <p id="expiringSoon">5 items</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>🧑‍🍳 Cooked Food</h3>
+        <p id="cookedFood">40 kg</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>🥦 Raw Food</h3>
+        <p id="rawFood">30 kg</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>📦 Packed Food</h3>
+        <p id="packedFood">80 kg</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 FoodSave Initiative. All rights reserved.
+  </div>
+
+  <!-- JavaScript to populate fields -->
+  <script>
+    const stats = {
+      scheduled: 2,
+      totalDonated: "150 kg",
+      expiringSoon: 5,
+      cookedFood: "40 kg",
+      rawFood: "30 kg",
+      packedFood: "80 kg"
+    };
+
+    document.getElementById("scheduledCount").textContent = stats.scheduled;
+    document.getElementById("totalDonated").textContent = stats.totalDonated;
+    document.getElementById("expiringSoon").textContent = `${stats.expiringSoon} items`;
+    document.getElementById("cookedFood").textContent = stats.cookedFood;
+    document.getElementById("rawFood").textContent = stats.rawFood;
+    document.getElementById("packedFood").textContent = stats.packedFood;
+  </script>
+</body>
+</html>

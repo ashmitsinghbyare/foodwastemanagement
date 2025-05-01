@@ -1,0 +1,71 @@
+<nav class="nav-bar">
+  <div class="nav-left">
+    <div class="nav-title">🥗 FoodSave Receiver</div>
+    <div class="nav-links">
+      <a href="/receiver-dashboard">Dashboard</a>
+      <a href="/Rhistory">History</a>
+      <a href="/notifications">Notifications</a>
+      <a href="/Rprofile">Profile</a>
+      <a href="/contact">Contact Us</a>
+    </div>
+  </div>
+  <div class="nav-user">
+    <img src="<%= user.profileImage || '/images/default-user.png' %>" alt="User" class="nav-user-img">
+    <span class="nav-user-name"><%= `${user.firstName} ${user.lastName}` %></span>
+  </div>
+</nav>
+<style>
+  .nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0e4725; /* Dark green */
+  padding: 12px 24px;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-right: 30px;
+  color: #a8ffb1;
+}
+
+.nav-links a {
+  margin-right: 20px;
+  color: #e0ffe9;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #75ff9b; /* Lighter green on hover */
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+}
+
+.nav-user-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 2px solid #a8ffb1;
+}
+
+.nav-user-name {
+  font-weight: 500;
+  color: #e6ffe8;
+}
+
+</style>

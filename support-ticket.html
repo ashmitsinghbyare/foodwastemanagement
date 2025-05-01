@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Support Ticket</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <!-- Same navigation -->
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1>Create Support Ticket</h1>
+            <form id="ticket-form">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select required>
+                        <option value="">Select Category</option>
+                        <option>Technical</option>
+                        <option>Billing</option>
+                        <option>General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea rows="6" required></textarea>
+                </div>
+                <button type="submit">Submit Ticket</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

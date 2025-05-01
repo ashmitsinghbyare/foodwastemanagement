@@ -1,0 +1,67 @@
+<!-- statsNavbar.ejs -->
+<nav class="nav-bar" id="navbar">
+  <div class="nav-logo">🥗 FoodSave</div>
+  <div class="nav-user">
+    <img src="<%= user.profileImage %>" alt="User Image" class="user-avatar" /> 
+    <%= user.name %> ▾  <!-- Display user's name -->
+    <div class="dropdown">
+      <a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a>
+      <a href="/profile"><i class="fas fa-user-cog"></i> Profile</a>
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+.nav-user {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;  /* Ensures the image is nicely cropped to fit the circle */
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  color: var(--text);
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+  min-width: 180px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.dropdown a {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.dropdown a i {
+  margin-right: 10px;
+  min-width: 20px;
+}
+
+.dropdown a:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.nav-user:hover .dropdown {
+  display: block;
+}
+</style>
