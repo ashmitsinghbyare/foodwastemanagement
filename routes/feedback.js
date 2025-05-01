@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Feedback = require('../models/Feedback'); // Adjust path if needed
+const Feedback = require('../models/feedback'); // Adjust path if needed
 
 // GET /feedbacks — Show all feedback
 /*router.get('/feedbacks', async (req, res) => {
