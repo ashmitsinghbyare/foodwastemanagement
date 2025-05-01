@@ -4,6 +4,7 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 const MongoStore = require('connect-mongo');
 const fs = require('fs');
 const upload = require('./middlewares/multer'); 
