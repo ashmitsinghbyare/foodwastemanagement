@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt'); // assuming passwords are hashed
 const crypto = require('crypto');
-const Feedback = require('../models/Feedback');
+const Feedback = require('../models/feedback');
 const Donation = require('../models/donation');
 
 const path = require('path');
