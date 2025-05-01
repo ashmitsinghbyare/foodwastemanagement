@@ -3,11 +3,11 @@ const router = express.Router();
 const { checkRole } = require('../middlewares/middleware'); 
 const restrictDashboardAccess = require('../middlewares/restrictDashboardAccess');
 const Receiver = require('../models/Receiver');
-const Pickup = require('../models/pickup');
+const Pickup = require('../models/Pickup');
 //const { ensureAuthenticated } = require('../middlewares/auth');
 // Assuming you're using multer for image uploads
 const multer = require('multer');
-const Feedback = require('../models/Feedback'); 
+const Feedback = require('../models/feedback'); 
 const path = require('path');
 const { scheduleOrder, confirmOrder } = require('../controllers/orderControllers');
 const Donation = require('../models/donation'); // Assuming you have a Donation model
