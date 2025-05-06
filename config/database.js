@@ -37,6 +37,7 @@ connectDB();
 
 module.exports = mongoose;*/
 
+// db.js
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
@@ -45,83 +46,74 @@ dotenv.config();
 // Track connection status
 let isConnected = false;
 
+// Connection function
 const connectDB = async () => {
-  // If already connected, return the existing connection
   if (isConnected) {
     console.log('Using existing MongoDB connection');
     return mongoose;
   }
 
   try {
-    // Always require MONGODB_URI in production
+    // Validate environment variables
+    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/foodwaste';
+
     if (process.env.NODE_ENV === 'production' && !process.env.MONGODB_URI) {
       throw new Error('MONGODB_URI environment variable is required in production mode');
     }
-    
-    // Default to a local connection string if MONGODB_URI is not set (development only)
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/foodwaste';
-    
+
     console.log('Attempting to connect to MongoDB...');
-    
-    // Connection options
+
+    // Mongoose connection options
     const options = {
-      serverSelectionTimeoutMS: 60000, // 60 seconds timeout for initial connection
-      socketTimeoutMS: 45000, // Increased socket timeout
-      connectTimeoutMS: 60000, // 60 seconds timeout for connection
-      heartbeatFrequencyMS: 10000, // Check server health more frequently
+      serverSelectionTimeoutMS: 60000,
+      socketTimeoutMS: 45000,
+      connectTimeoutMS: 60000,
+      heartbeatFrequencyMS: 10000,
       retryWrites: true,
-      w: 'majority', // Write to primary and wait for acknowledgment from a majority
-      // Ensure we're using the new URL parser and unified topology
+      w: 'majority',
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     };
-    
+
     // Connect to MongoDB
     const conn = await mongoose.connect(mongoURI, options);
-    
-    // Mark as connected
     isConnected = true;
-    
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-    
-    // Add error handlers to maintain connection
+
+    console.log(MongoDB Connected: ${conn.connection.host});
+
+    // Connection event handlers
     mongoose.connection.on('error', (err) => {
-      console.error(`MongoDB connection error: ${err}`);
+      console.error(MongoDB connection error: ${err});
       isConnected = false;
     });
-    
+
     mongoose.connection.on('disconnected', () => {
       console.warn('MongoDB disconnected. Attempting to reconnect...');
       isConnected = false;
-      setTimeout(connectDB, 5000); // Try to reconnect after 5 seconds
+      setTimeout(connectDB, 5000); // Retry after 5 seconds
     });
-    
-    // Log when successfully reconnected
+
     mongoose.connection.on('reconnected', () => {
       console.log('MongoDB reconnected successfully!');
       isConnected = true;
     });
-    
+
     return conn;
   } catch (err) {
-    console.error(`Error connecting to MongoDB: ${err.message}`);
-    console.error('Please make sure your MongoDB connection string is correct and the database is accessible');
-    console.error('Check that your MongoDB Atlas IP whitelist includes your server\'s IP address');
-    
+    console.error(Error connecting to MongoDB: ${err.message});
+    console.error('Ensure the URI is correct and accessible. If using Atlas, verify the IP whitelist.');
+
     if (process.env.NODE_ENV === 'production') {
-      console.error('Retrying connection in 5 seconds...');
-      // In production, retry the connection instead of exiting
+      console.error('Retrying MongoDB connection in 5 seconds...');
       setTimeout(connectDB, 5000);
     } else {
-      // In development, it's helpful to exit so the developer notices the problem
       process.exit(1);
     }
   }
 };
 
-// Export the connection function
+// Export connection helpers
 module.exports = {
   connectDB,
-  getConnection: () => mongoose
+  getConnection: () => mongoose,
 };
-
