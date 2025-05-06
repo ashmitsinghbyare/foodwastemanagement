@@ -1,0 +1,466 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Reduce Food Waste, Feed Communities</h1>
+    <p>Connect donors with those in need to create a more sustainable and compassionate world</p>
+    <div class="hero-buttons">
+      <% if (!user) { %>
+        <a href="/auth/register" class="btn btn-primary">Join Now</a>
+        <a href="/auth/login" class="btn btn-outline-light">Login</a>
+      <% } else if (user.role === 'donor') { %>
+        <a href="/donor/foods/new" class="btn btn-primary">Donate Food</a>
+        <a href="/donor/dashboard" class="btn btn-outline-light">My Dashboard</a>
+      <% } else if (user.role === 'receiver') { %>
+        <a href="/receiver/browse" class="btn btn-primary">Find Food</a>
+        <a href="/receiver/dashboard" class="btn btn-outline-light">My Dashboard</a>
+      <% } else { %>
+        <a href="/admin/dashboard" class="btn btn-primary">Admin Dashboard</a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="section-heading">
+      <h2>How It Works</h2>
+      <p>Our platform makes it easy to connect surplus food with those who need it</p>
+    </div>
+    
+    <div class="text-center mb-5">
+      <img src="/images/pickup-cycle.svg" alt="Food Donation Cycle" class="img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">
+    </div>
+    
+    <div class="features-container">
+      <div class="feature-box">
+        <div class="feature-icon">
+          <i class="fas fa-utensils"></i>
+        </div>
+        <h3>1. List Surplus Food</h3>
+        <p>Restaurants, stores, and individuals can easily list their extra food with detailed information</p>
+      </div>
+      
+      <div class="feature-box">
+        <div class="feature-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>2. Find Available Food</h3>
+        <p>Recipients can browse and search for available food donations in their area</p>
+      </div>
+      
+      <div class="feature-box">
+        <div class="feature-icon">
+          <i class="fas fa-handshake"></i>
+        </div>
+        <h3>3. Connect & Collect</h3>
+        <p>Request the food, communicate with the donor, and arrange pickup</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Listings Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Recently Added Food</h2>
+      <p>Check out these recent food listings available for pickup</p>
+    </div>
+    
+    <div class="card-grid">
+      <% if (recentListings && recentListings.length > 0) { %>
+        <% recentListings.forEach(function(food) { %>
+          <div class="card">
+            <% if (food.images && food.images.length > 0) { %>
+              <img src="/uploads/foods/<%= food.images[0] %>" class="card-img" alt="<%= food.title %>">
+            <% } else { %>
+              <img src="https://pixabay.com/get/g8fb9921fca1751866716f272f0c8a9b8afd9cc1b57a43e07b2c2fe0598b4066a959e557cf7722dd23fe56dede77a55ecd817a9304e7405d1c83af7ab38d99f6a_1280.jpg" class="card-img" alt="<%= food.title %>">
+            <% } %>
+            <div class="card-body">
+              <h3 class="card-title"><%= food.title %></h3>
+              <p class="card-text"><%= food.description.substring(0, 100) %>...</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge badge-<%= food.category === 'cooked food' ? 'warning' : food.category === 'packaged food' ? 'info' : 'success' %>">
+                  <%= food.category %>
+                </span>
+                <span>
+                  <i class="fas fa-clock me-1"></i> 
+                  Expires: <%= new Date(food.expiryDate).toLocaleDateString() %>
+                </span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="/receiver/foods/<%= food._id %>" class="btn btn-primary btn-block">View Details</a>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="col-12 text-center">
+          <p>No food listings available at this time. Please check back later!</p>
+        </div>
+      <% } %>
+    </div>
+    
+    <div class="text-center mt-4">
+      <a href="/receiver/browse" class="btn btn-primary">Browse All Food Listings</a>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Section -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Our Impact</h2>
+      <p>Together, we're making a difference in our communities</p>
+    </div>
+    
+    <div class="dashboard-grid">
+      <div class="stats-card">
+        <div class="stats-icon">
+          <i class="fas fa-apple-alt text-success"></i>
+        </div>
+        <h3>Food Donations</h3>
+        <div class="stats-value"><%= stats ? stats.completedDonations : 0 %></div>
+        <p class="stats-label">Successful donations completed</p>
+      </div>
+      
+      <div class="stats-card">
+        <div class="stats-icon">
+          <i class="fas fa-users text-primary"></i>
+        </div>
+        <h3>Community</h3>
+        <div class="stats-value"><%= stats ? (stats.uniqueDonors + stats.uniqueReceivers) : 0 %></div>
+        <p class="stats-label">Active participants in our network</p>
+      </div>
+      
+      <div class="stats-card">
+        <div class="stats-icon">
+          <i class="fas fa-globe text-info"></i>
+        </div>
+        <h3>Environmental Impact</h3>
+        <div class="stats-value"><%= stats ? Math.round(stats.co2Saved) : 0 %> kg</div>
+        <p class="stats-label">CO₂ emissions prevented</p>
+      </div>
+    </div>
+    
+    <div class="mt-5">
+      <div class="stats-card text-center">
+        <div class="stats-icon" style="font-size: 3rem;">
+          <i class="fas fa-award text-warning"></i>
+        </div>
+        <h3>Total Food Rescued</h3>
+        <div class="stats-value text-success" style="font-size: 3.5rem;"><%= stats ? stats.kgFoodSaved : 0 %> kg</div>
+        <p class="stats-label">of food saved from going to waste</p>
+        <div class="progress mt-3" style="height: 10px;">
+          <div class="progress-bar bg-success" role="progressbar" style="width: <%= Math.min(100, stats ? stats.kgFoodSaved/10 : 0) %>%;" 
+               aria-valuenow="<%= stats ? stats.kgFoodSaved : 0 %>" aria-valuemin="0" aria-valuemax="1000"></div>
+        </div>
+        <div class="d-flex justify-content-between mt-2">
+          <small>0 kg</small>
+          <small>Target: 1000 kg</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="section-heading">
+      <h2>What Our Users Say</h2>
+      <p>Hear from donors and receivers who are part of our community</p>
+    </div>
+    
+    <div class="row" id="testimonials-container">
+      <% if (testimonials && testimonials.length > 0) { %>
+        <!-- Real testimonials from database -->
+        <% testimonials.forEach(function(testimonial) { %>
+          <div class="col-md-6 mb-4 real-testimonial">
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <div class="testimonial-rating">
+                  <% for (let i = 1; i <= 5; i++) { %>
+                    <i class="fas fa-star <%= i <= testimonial.rating ? 'text-warning' : 'text-muted' %>"></i>
+                  <% } %>
+                </div>
+                <p class="testimonial-message">"<%= testimonial.message %>"</p>
+                <div class="testimonial-user">
+                  <img 
+                    src="/uploads/profiles/<%= testimonial.user.profileImage || 'default-avatar.png' %>" 
+                    alt="<%= testimonial.user.role %>" 
+                    class="rounded-circle"
+                    onerror="this.src='/images/default-avatar.svg'" 
+                  >
+                  <div class="testimonial-user-info">
+                    <span class="testimonial-user-name"><%= testimonial.user.name %></span>
+                    <span class="testimonial-user-role <%= testimonial.user.role === 'donor' ? 'text-success' : 'text-info' %>"><%= testimonial.user.role.charAt(0).toUpperCase() + testimonial.user.role.slice(1) %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <!-- Default testimonials will be shown if no real testimonials exist in the database -->
+        <div class="col-md-6 mb-4">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <div class="testimonial-rating">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <p class="testimonial-message">"Instead of throwing away our unsold bread and pastries at the end of the day, we can now ensure they go to people who need them. This platform has been incredible for reducing our waste and giving back to the community."</p>
+              <div class="testimonial-user">
+                <img src="https://pixabay.com/get/g461a34a77f3cbce76d40630a5f6fa1363509f5ab432bc2f4a7d57d54f31b093e2675b207e9d23315d6435f8a9a945ca406b612564625479f6b0d05c3efa67139_1280.jpg" alt="Donor" class="rounded-circle">
+                <div class="testimonial-user-info">
+                  <span class="testimonial-user-name">John's Bakery</span>
+                  <span class="testimonial-user-role text-success">Donor</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <div class="testimonial-rating">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <p class="testimonial-message">"Our neighborhood food pantry has been able to serve so many more families thanks to this platform. The easy-to-use interface and reliable donors have made a huge difference in our ability to meet community needs."</p>
+              <div class="testimonial-user">
+                <img src="https://pixabay.com/get/g8705a8ed1a6170dc27fad29e231fe48d6418fb7656611871f5c8df19369c0329d8a57efdee388febbe0ff0af8174ac5e0d6fee98ed16ab3b81a9d8b8390d93bc_1280.jpg" alt="Receiver" class="rounded-circle">
+                <div class="testimonial-user-info">
+                  <span class="testimonial-user-name">Community Helpers</span>
+                  <span class="testimonial-user-role text-info">Receiver</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Dashboard Access Section (for logged-in users) -->
+<% if (user) { %>
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Quick Access</h2>
+      <p>Go directly to your personalized dashboard</p>
+    </div>
+    
+    <div class="dashboard-grid">
+      <% if (user.role === 'admin' || user.role === 'donor') { %>
+      <div class="stats-card">
+        <div class="stats-icon">
+          <i class="fas fa-utensils text-success"></i>
+        </div>
+        <h3>Donor Dashboard</h3>
+        <p class="stats-label">Donate food and manage your listings</p>
+        <a href="/donor/dashboard" class="btn btn-success mt-3 <%= user.role !== 'donor' ? 'disabled' : '' %>">
+          <i class="fas fa-arrow-right"></i> Access Dashboard
+        </a>
+      </div>
+      <% } %>
+      
+      <% if (user.role === 'admin' || user.role === 'receiver') { %>
+      <div class="stats-card">
+        <div class="stats-icon">
+          <i class="fas fa-hands-helping text-info"></i>
+        </div>
+        <h3>Receiver Dashboard</h3>
+        <p class="stats-label">Browse foods and manage your requests</p>
+        <a href="/receiver/dashboard" class="btn btn-info mt-3 <%= user.role !== 'receiver' ? 'disabled' : '' %>">
+          <i class="fas fa-arrow-right"></i> Access Dashboard
+        </a>
+      </div>
+      <% } %>
+      
+      <% if (user.role === 'admin') { %>
+      <div class="stats-card">
+        <div class="stats-icon">
+          <i class="fas fa-user-shield text-primary"></i>
+        </div>
+        <h3>Admin Dashboard</h3>
+        <p class="stats-label">System administration and management</p>
+        <a href="/admin/dashboard" class="btn btn-primary mt-3">
+          <i class="fas fa-arrow-right"></i> Access Dashboard
+        </a>
+      </div>
+      <% } %>
+    </div>
+    
+    <!-- Admin Quick Links (for admin users only) -->
+    <% if (user.role === 'admin') { %>
+    <div class="admin-quick-links mt-5">
+      <div class="section-heading">
+        <h3>Admin Quick Links</h3>
+        <p>Quickly access important administration pages</p>
+      </div>
+      
+      <div class="row mt-4">
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="admin-icon mb-3">
+                <i class="fas fa-users text-primary fa-2x"></i>
+              </div>
+              <h4>Users</h4>
+              <p class="small">Manage user accounts</p>
+              <a href="/admin/users" class="btn btn-outline-primary btn-sm mt-2">Manage Users</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="admin-icon mb-3">
+                <i class="fas fa-utensils text-success fa-2x"></i>
+              </div>
+              <h4>Food Listings</h4>
+              <p class="small">Review food donations</p>
+              <a href="/admin/foods" class="btn btn-outline-success btn-sm mt-2">Manage Foods</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="admin-icon mb-3">
+                <i class="fas fa-exchange-alt text-info fa-2x"></i>
+              </div>
+              <h4>Requests</h4>
+              <p class="small">Oversee food requests</p>
+              <a href="/admin/requests" class="btn btn-outline-info btn-sm mt-2">Manage Requests</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="admin-icon mb-3">
+                <i class="fas fa-comment-alt text-warning fa-2x"></i>
+              </div>
+              <h4>Feedback</h4>
+              <p class="small">Review user feedback</p>
+              <a href="/feedback/admin" class="btn btn-outline-warning btn-sm mt-2">Manage Feedback</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+<% } %>
+
+<!-- Call to Action Section -->
+<section class="py-5 bg-primary text-white text-center">
+  <div class="container">
+    <h2>Ready to Make a Difference?</h2>
+    <p class="lead mb-4">Join our community and help reduce food waste while feeding those in need</p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="/auth/register?role=donor" class="btn btn-lg btn-light">Register as Donor</a>
+      <a href="/auth/register?role=receiver" class="btn btn-lg btn-outline-light">Register as Receiver</a>
+    </div>
+  </div>
+</section>
+
+<!-- JavaScript for loading testimonials dynamically -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Only try to load testimonials if we don't have any from server-side
+    const testimonialContainer = document.getElementById('testimonials-container');
+    const realTestimonials = testimonialContainer.querySelector('.real-testimonial');
+    
+    // If no real testimonials were rendered from server-side, try to fetch them
+    if (!realTestimonials && testimonialContainer) {
+      // First check if we have any server-rendered testimonials
+      const serverRenderedTestimonials = testimonialContainer.querySelectorAll('.col-md-6');
+      if (serverRenderedTestimonials.length <= 2) { // Only default testimonials
+        fetchTestimonials();
+      }
+    }
+    
+    function fetchTestimonials() {
+      fetch('/feedback/testimonials')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success && data.testimonials && data.testimonials.length > 0) {
+            // Clear existing testimonials
+            testimonialContainer.innerHTML = '';
+            
+            // Render new testimonials
+            data.testimonials.forEach(testimonial => {
+              const testimonialHtml = createTestimonialHtml(testimonial);
+              testimonialContainer.innerHTML += testimonialHtml;
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching testimonials:', error);
+        });
+    }
+    
+    function createTestimonialHtml(testimonial) {
+      const stars = generateStarRating(testimonial.rating);
+      const profileImg = testimonial.user.profileImage || 'default-avatar.png';
+      const userRole = testimonial.user.role.charAt(0).toUpperCase() + testimonial.user.role.slice(1);
+      const roleClass = testimonial.user.role === 'donor' ? 'text-success' : 'text-info';
+      
+      return `
+        <div class="col-md-6 mb-4 real-testimonial">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <div class="testimonial-rating">
+                ${stars}
+              </div>
+              <p class="testimonial-message">"${testimonial.message}"</p>
+              <div class="testimonial-user">
+                <img 
+                  src="/uploads/profiles/${profileImg}" 
+                  alt="${testimonial.user.role}" 
+                  class="rounded-circle"
+                  onerror="this.src='/images/default-avatar.svg'" 
+                >
+                <div class="testimonial-user-info">
+                  <span class="testimonial-user-name">${testimonial.user.name}</span>
+                  <span class="testimonial-user-role ${roleClass}">${userRole}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    function generateStarRating(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        const starClass = i <= rating ? 'text-warning' : 'text-muted';
+        stars += `<i class="fas fa-star ${starClass}"></i>`;
+      }
+      return stars;
+    }
+  });
+</script>
+
+<%- include('partials/footer') %>

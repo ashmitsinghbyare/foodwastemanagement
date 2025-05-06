@@ -1,0 +1,131 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+  <div class="section-heading">
+    <h1>Notifications</h1>
+    <p>Stay updated with your activity and alerts</p>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">Your Notifications</h3>
+      <form action="/notifications/mark-all-read" method="POST" class="d-inline">
+        <button type="submit" class="btn btn-sm btn-outline-primary">
+          <i class="fas fa-check-double"></i> Mark All as Read
+        </button>
+      </form>
+    </div>
+    
+    <div class="card-body p-0">
+      <% if(notifications && notifications.length > 0) { %>
+        <div class="notification-list">
+          <% notifications.forEach(notification => { %>
+            <div class="notification-item <%= notification.isRead ? '' : 'unread' %>">
+              <div class="notification-icon">
+                <%- getNotificationIcon(notification.type) %>
+              </div>
+              
+              <div class="notification-content">
+                <div class="notification-message">
+                  <%= notification.message %>
+                </div>
+                
+                <div class="notification-meta">
+                  <span class="notification-time">
+                    <i class="far fa-clock"></i> <%= formatDate(notification.createdAt) %>
+                  </span>
+                  
+                  <% if (notification.relatedTo && notification.relatedTo.model) { %>
+                    <span class="notification-category">
+                      <%= notification.relatedTo.model.toLowerCase() %>
+                    </span>
+                  <% } %>
+                </div>
+              </div>
+              
+              <div class="notification-actions">
+                <% if (!notification.isRead) { %>
+                  <form action="/notifications/mark-read/<%= notification._id %>" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="Mark as read">
+                      <i class="fas fa-check"></i>
+                    </button>
+                  </form>
+                <% } %>
+                
+                <% if (notification.url) { %>
+                  <a href="<%= notification.url %>" class="btn btn-sm btn-primary" title="View details">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                <% } %>
+                
+                <form action="/notifications/delete/<%= notification._id %>" method="POST" class="d-inline">
+                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete notification">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="empty-state p-5 text-center">
+          <i class="fas fa-bell-slash fa-4x text-muted mb-3"></i>
+          <h4>No Notifications</h4>
+          <p class="text-muted">You don't have any notifications at the moment.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Notification Preferences</h3>
+    </div>
+    
+    <div class="card-body">
+      <form action="/notifications/preferences" method="POST">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h4>Email Notifications</h4>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="email_requests" name="email_requests" <% if (user.notificationPreferences && user.notificationPreferences.email_requests) { %>checked<% } %>>
+              <label class="form-check-label" for="email_requests">Food requests</label>
+            </div>
+            
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="email_approvals" name="email_approvals" <% if (user.notificationPreferences && user.notificationPreferences.email_approvals) { %>checked<% } %>>
+              <label class="form-check-label" for="email_approvals">Request approvals</label>
+            </div>
+            
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="email_system" name="email_system" <% if (user.notificationPreferences && user.notificationPreferences.email_system) { %>checked<% } %>>
+              <label class="form-check-label" for="email_system">System announcements</label>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <h4>In-App Notifications</h4>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="app_requests" name="app_requests" <% if (user.notificationPreferences && user.notificationPreferences.app_requests) { %>checked<% } %>>
+              <label class="form-check-label" for="app_requests">Food requests</label>
+            </div>
+            
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="app_approvals" name="app_approvals" <% if (user.notificationPreferences && user.notificationPreferences.app_approvals) { %>checked<% } %>>
+              <label class="form-check-label" for="app_approvals">Request approvals</label>
+            </div>
+            
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="app_system" name="app_system" <% if (user.notificationPreferences && user.notificationPreferences.app_system) { %>checked<% } %>>
+              <label class="form-check-label" for="app_system">System announcements</label>
+            </div>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save Preferences</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

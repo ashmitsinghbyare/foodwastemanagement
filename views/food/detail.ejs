@@ -1,0 +1,140 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/receiver/browse">Browse Foods</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= food.title %></li>
+      </ol>
+    </nav>
+  </div>
+  
+  <div class="food-detail">
+    <div class="food-images">
+      <% if (food.images && food.images.length > 0) { %>
+        <img src="/uploads/foods/<%= food.images[0] %>" alt="<%= food.title %>" class="food-main-image">
+        
+        <% if (food.images.length > 1) { %>
+          <div class="food-thumbnails">
+            <% food.images.forEach(function(image) { %>
+              <img src="/uploads/foods/<%= image %>" alt="<%= food.title %>" class="food-thumbnail">
+            <% }); %>
+          </div>
+        <% } %>
+      <% } else { %>
+        <img src="https://pixabay.com/get/g8fb9921fca1751866716f272f0c8a9b8afd9cc1b57a43e07b2c2fe0598b4066a959e557cf7722dd23fe56dede77a55ecd817a9304e7405d1c83af7ab38d99f6a_1280.jpg" alt="<%= food.title %>" class="food-main-image">
+      <% } %>
+    </div>
+    
+    <div class="food-info">
+      <h1><%= food.title %></h1>
+      
+      <div class="food-meta">
+        <div class="food-meta-item">
+          <span class="food-meta-label">Category</span>
+          <span class="food-meta-value badge badge-<%= food.category === 'cooked food' ? 'warning' : food.category === 'packaged food' ? 'info' : 'success' %>">
+            <%= food.category %>
+          </span>
+        </div>
+        
+        <div class="food-meta-item">
+          <span class="food-meta-label">Quantity</span>
+          <span class="food-meta-value"><%= food.quantity %> <%= food.unit %></span>
+        </div>
+        
+        <div class="food-meta-item">
+          <span class="food-meta-label">Expiry Date</span>
+          <span class="food-meta-value"><%= new Date(food.expiryDate).toLocaleDateString() %></span>
+        </div>
+      </div>
+      
+      <div class="mt-3">
+        <h3>Description</h3>
+        <p><%= food.description %></p>
+      </div>
+      
+      <div class="mt-3">
+        <h3>Donated By</h3>
+        <p><%= food.donor.name %> <%= food.donor.organization ? `(${food.donor.organization})` : '' %></p>
+      </div>
+      
+      <div class="food-pickup">
+        <h3>Pickup Information</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Address</h5>
+            <p>
+              <%= food.pickupDetails.address.street %><br>
+              <%= food.pickupDetails.address.city %>, <%= food.pickupDetails.address.state %> <%= food.pickupDetails.address.postalCode %><br>
+              <%= food.pickupDetails.address.country %>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <h5>Available Pickup Times</h5>
+            <% if (food.pickupDetails.availability && food.pickupDetails.availability.length > 0) { %>
+              <ul>
+                <% food.pickupDetails.availability.forEach(function(avail) { %>
+                  <li><%= avail.day %>: <%= avail.from %> - <%= avail.to %></li>
+                <% }); %>
+              </ul>
+            <% } else { %>
+              <p>No specific pickup times provided. Please contact the donor.</p>
+            <% } %>
+          </div>
+        </div>
+        
+        <% if (food.pickupDetails.instructions) { %>
+          <div class="mt-3">
+            <h5>Special Instructions</h5>
+            <p><%= food.pickupDetails.instructions %></p>
+          </div>
+        <% } %>
+      </div>
+      
+      <div class="mt-4">
+        <% if (!user) { %>
+          <div class="alert alert-info">
+            <h5><i class="fas fa-info-circle"></i> Want This Food?</h5>
+            <p>Please <a href="/auth/login">login</a> or <a href="/auth/register">register</a> as a receiver to request this food.</p>
+          </div>
+        <% } else if (user.role === 'receiver') { %>
+          <% if (existingRequest) { %>
+            <div class="alert alert-info">
+              <h5><i class="fas fa-check-circle"></i> Request Submitted</h5>
+              <p>You have already requested this food. <a href="/receiver/requests/<%= existingRequest._id %>">View your request status</a>.</p>
+            </div>
+          <% } else { %>
+            <h3>Request This Food</h3>
+            <form action="/receiver/foods/<%= food._id %>/request" method="POST">
+              <div class="form-group">
+                <label for="message" class="form-label">Message to Donor (Optional)</label>
+                <textarea id="message" name="message" class="form-control" rows="3" placeholder="Introduce yourself and explain why you need this food..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg mt-3">Submit Request</button>
+            </form>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Food image gallery
+    const mainImage = document.querySelector('.food-main-image');
+    const thumbnails = document.querySelectorAll('.food-thumbnail');
+    
+    if (thumbnails.length > 0) {
+      thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', () => {
+          mainImage.src = thumbnail.src;
+        });
+      });
+    }
+  });
+</script>
+
+<%- include('../partials/footer') %>

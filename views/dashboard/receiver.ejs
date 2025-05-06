@@ -1,0 +1,149 @@
+<%- include('../partials/header') %>
+
+<div class="container dashboard">
+  <div class="section-heading">
+    <h1>Receiver Dashboard</h1>
+    <p>Find and request food donations</p>
+  </div>
+  
+  <!-- Stats Overview -->
+  <div class="dashboard-grid">
+    <div class="stats-card">
+      <h3>Pending Requests</h3>
+      <div class="stats-value"><%= stats.pendingRequests %></div>
+    </div>
+    
+    <div class="stats-card">
+      <h3>Approved Requests</h3>
+      <div class="stats-value"><%= stats.approvedRequests %></div>
+    </div>
+    
+    <div class="stats-card">
+      <h3>Completed Requests</h3>
+      <div class="stats-value"><%= stats.completedRequests %></div>
+    </div>
+    
+    <div class="stats-card">
+      <h3>Notifications</h3>
+      <div class="stats-value"><%= stats.unreadNotifications %></div>
+    </div>
+  </div>
+  
+  <!-- Quick Actions -->
+  <div class="section-heading">
+    <h2>Quick Actions</h2>
+  </div>
+  
+  <div class="row mb-4">
+    <div class="col-md-6 mb-3">
+      <a href="/receiver/browse" class="btn btn-primary btn-block">
+        <i class="fas fa-search"></i> Browse Available Foods
+      </a>
+    </div>
+    <div class="col-md-6 mb-3">
+      <a href="/receiver/requests" class="btn btn-secondary btn-block">
+        <i class="fas fa-list"></i> View My Requests
+        <% if (stats.approvedRequests > 0) { %>
+          <span class="badge bg-success"><%= stats.approvedRequests %></span>
+        <% } %>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Recently Available Foods -->
+  <div class="recent-items">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Recently Available Foods</h2>
+      <a href="/receiver/browse" class="btn btn-outline-primary">View All</a>
+    </div>
+    
+    <div class="card-grid">
+      <% if (recentFoods && recentFoods.length > 0) { %>
+        <% recentFoods.forEach(function(food) { %>
+          <div class="card">
+            <% if (food.images && food.images.length > 0) { %>
+              <img src="/uploads/foods/<%= food.images[0] %>" class="card-img" alt="<%= food.title %>">
+            <% } else { %>
+              <img src="https://pixabay.com/get/g8fb9921fca1751866716f272f0c8a9b8afd9cc1b57a43e07b2c2fe0598b4066a959e557cf7722dd23fe56dede77a55ecd817a9304e7405d1c83af7ab38d99f6a_1280.jpg" class="card-img" alt="<%= food.title %>">
+            <% } %>
+            <div class="card-body">
+              <h3 class="card-title"><%= food.title %></h3>
+              <p class="card-text"><%= food.description.substring(0, 100) %>...</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge badge-<%= food.category === 'cooked food' ? 'warning' : food.category === 'packaged food' ? 'info' : 'success' %>">
+                  <%= food.category %>
+                </span>
+                <span>
+                  <i class="fas fa-clock me-1"></i> 
+                  Expires: <%= new Date(food.expiryDate).toLocaleDateString() %>
+                </span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="/receiver/foods/<%= food._id %>" class="btn btn-primary btn-block">View Details</a>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="col-12 text-center">
+          <p>No food listings available at this time. Please check back later!</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+  <!-- Recent Requests -->
+  <div class="recent-items">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>My Recent Requests</h2>
+      <a href="/receiver/requests" class="btn btn-outline-primary">View All</a>
+    </div>
+    
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Donor</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recentRequests && recentRequests.length > 0) { %>
+            <% recentRequests.forEach(function(request) { %>
+              <tr>
+                <td><%= request.food.title %></td>
+                <td><%= request.donor.name %></td>
+                <td><%= new Date(request.createdAt).toLocaleDateString() %></td>
+                <td>
+                  <% if (request.status === 'pending') { %>
+                    <span class="badge badge-warning">Pending</span>
+                  <% } else if (request.status === 'approved') { %>
+                    <span class="badge badge-success">Approved</span>
+                  <% } else if (request.status === 'rejected') { %>
+                    <span class="badge badge-danger">Rejected</span>
+                  <% } else if (request.status === 'completed') { %>
+                    <span class="badge badge-info">Completed</span>
+                  <% } else { %>
+                    <span class="badge badge-secondary"><%= request.status %></span>
+                  <% } %>
+                </td>
+                <td>
+                  <a href="/receiver/requests/<%= request._id %>" class="btn btn-sm btn-primary">View Details</a>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="5" class="text-center">No requests made yet. <a href="/receiver/browse">Browse available foods</a> to make your first request!</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

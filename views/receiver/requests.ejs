@@ -1,0 +1,173 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="section-heading">
+    <h1>My Food Requests</h1>
+    <p>Track the status of your requested food donations</p>
+  </div>
+  
+  <!-- Status Filter -->
+  <div class="mb-4">
+    <form action="/receiver/requests" method="GET" class="row g-3">
+      <div class="col-md-4">
+        <select name="status" class="form-control" onchange="this.form.submit()">
+          <option value="" <%= status === 'all' ? 'selected' : '' %>>All Requests</option>
+          <option value="pending" <%= status === 'pending' ? 'selected' : '' %>>Pending</option>
+          <option value="approved" <%= status === 'approved' ? 'selected' : '' %>>Approved</option>
+          <option value="rejected" <%= status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+          <option value="completed" <%= status === 'completed' ? 'selected' : '' %>>Completed</option>
+          <option value="cancelled" <%= status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+        </select>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Requests List -->
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Food Item</th>
+          <th>Donor</th>
+          <th>Date Requested</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (requests && requests.length > 0) { %>
+          <% requests.forEach(function(request) { %>
+            <tr>
+              <td>
+                <% if (request.food.images && request.food.images.length > 0) { %>
+                  <img src="/uploads/foods/<%= request.food.images[0] %>" alt="<%= request.food.title %>" width="50" height="50" class="rounded me-2">
+                <% } %>
+                <%= request.food.title %>
+              </td>
+              <td><%= request.donor.name %></td>
+              <td><%= new Date(request.createdAt).toLocaleDateString() %></td>
+              <td>
+                <% if (request.status === 'pending') { %>
+                  <span class="badge badge-warning">Pending</span>
+                <% } else if (request.status === 'approved') { %>
+                  <span class="badge badge-success">Approved</span>
+                <% } else if (request.status === 'rejected') { %>
+                  <span class="badge badge-danger">Rejected</span>
+                <% } else if (request.status === 'completed') { %>
+                  <span class="badge badge-info">Completed</span>
+                <% } else if (request.status === 'cancelled') { %>
+                  <span class="badge badge-secondary">Cancelled</span>
+                <% } %>
+              </td>
+              <td>
+                <a href="/receiver/requests/<%= request._id %>" class="btn btn-sm btn-primary">View Details</a>
+                
+                <% if (request.status === 'pending') { %>
+                  <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal<%= request._id %>">
+                    Cancel
+                  </button>
+                <% } else if (request.status === 'approved' && !request.pickupConfirmed) { %>
+                  <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal<%= request._id %>">
+                    Confirm Pickup
+                  </button>
+                <% } %>
+                
+                <!-- Cancel Modal -->
+                <div class="modal fade" id="cancelModal<%= request._id %>" tabindex="-1" aria-labelledby="cancelModalLabel<%= request._id %>" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel<%= request._id %>">Cancel Request</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <form action="/receiver/requests/<%= request._id %>/cancel?_method=PUT" method="POST">
+                        <div class="modal-body">
+                          <p>Are you sure you want to cancel your request for <strong><%= request.food.title %></strong>?</p>
+                          <div class="alert alert-warning">
+                            <p><i class="fas fa-exclamation-triangle"></i> The donor will be notified about your cancellation.</p>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep Request</button>
+                          <button type="submit" class="btn btn-danger">Yes, Cancel Request</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Confirm Pickup Modal -->
+                <div class="modal fade" id="confirmModal<%= request._id %>" tabindex="-1" aria-labelledby="confirmModalLabel<%= request._id %>" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalLabel<%= request._id %>">Confirm Pickup</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <form action="/receiver/requests/<%= request._id %>/confirm-pickup?_method=PUT" method="POST">
+                        <div class="modal-body">
+                          <p>By confirming pickup, you acknowledge that you have received <strong><%= request.food.title %></strong> from the donor.</p>
+                          <div class="alert alert-info">
+                            <p><i class="fas fa-info-circle"></i> The donor will be notified of your confirmation.</p>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn btn-success">Confirm Pickup</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td colspan="5" class="text-center py-4">
+              <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+              <h4>No Requests Found</h4>
+              <p>You haven't made any food requests matching the selected filter.</p>
+              <a href="/receiver/browse" class="btn btn-primary mt-2">Browse Available Food</a>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Pagination -->
+  <% if (totalPages > 1) { %>
+    <nav aria-label="Requests pagination">
+      <ul class="pagination justify-content-center">
+        <% if (page > 1) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= page - 1 %><%= status && status !== 'all' ? '&status=' + status : '' %>">Previous</a>
+          </li>
+        <% } else { %>
+          <li class="page-item disabled">
+            <span class="page-link">Previous</span>
+          </li>
+        <% } %>
+        
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= page === i ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %><%= status && status !== 'all' ? '&status=' + status : '' %>"><%= i %></a>
+          </li>
+        <% } %>
+        
+        <% if (page < totalPages) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= page + 1 %><%= status && status !== 'all' ? '&status=' + status : '' %>">Next</a>
+          </li>
+        <% } else { %>
+          <li class="page-item disabled">
+            <span class="page-link">Next</span>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,114 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="profile-header">
+    <img src="/uploads/profiles/<%= user.profileImage %>" alt="<%= user.name %>" class="profile-image">
+    <div class="profile-info">
+      <h1><%= user.name %></h1>
+      <p><span class="badge <%= user.role === 'donor' ? 'badge-warning' : user.role === 'admin' ? 'badge-danger' : 'badge-info' %>"><%= user.role %></span></p>
+      <p><i class="fas fa-calendar-alt"></i> Member since <%= new Date(user.joinedDate).toLocaleDateString() %></p>
+    </div>
+  </div>
+  
+  <div class="profile-details">
+    <div class="profile-section">
+      <h3>Personal Information</h3>
+      <div class="table-container">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th width="30%">Name</th>
+              <td><%= user.name %></td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td><%= user.email %></td>
+            </tr>
+            <tr>
+              <th>Phone</th>
+              <td><%= user.phone || 'Not provided' %></td>
+            </tr>
+            <tr>
+              <th>Organization</th>
+              <td><%= user.organization || 'Not provided' %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="profile-section">
+      <h3>Address Information</h3>
+      <div class="table-container">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th width="30%">Street</th>
+              <td><%= user.address.street || 'Not provided' %></td>
+            </tr>
+            <tr>
+              <th>City</th>
+              <td><%= user.address.city || 'Not provided' %></td>
+            </tr>
+            <tr>
+              <th>State</th>
+              <td><%= user.address.state || 'Not provided' %></td>
+            </tr>
+            <tr>
+              <th>Postal Code</th>
+              <td><%= user.address.postalCode || 'Not provided' %></td>
+            </tr>
+            <tr>
+              <th>Country</th>
+              <td><%= user.address.country || 'Not provided' %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div class="profile-section">
+    <h3>About Me</h3>
+    <p><%= user.bio || 'No bio provided yet.' %></p>
+  </div>
+  
+  <div class="profile-actions">
+    <a href="/profile/edit" class="btn btn-primary">
+      <i class="fas fa-edit"></i> Edit Profile
+    </a>
+    <a href="/profile/settings" class="btn btn-info">
+      <i class="fas fa-cog"></i> Account Settings
+    </a>
+    <a href="/profile/change-password" class="btn btn-secondary">
+      <i class="fas fa-key"></i> Change Password
+    </a>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+      <i class="fas fa-trash"></i> Delete Account
+    </button>
+  </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+        <p class="text-danger"><strong>Warning:</strong> All your data including food listings, requests, and personal information will be permanently deleted.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form action="/profile/delete?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-danger">Delete My Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

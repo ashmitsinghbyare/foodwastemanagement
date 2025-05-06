@@ -1,0 +1,228 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="section-heading">
+    <% if (viewType === 'browse') { %>
+      <h1>Browse Available Foods</h1>
+      <p>Find food donations available for pickup in your area</p>
+    <% } else if (viewType === 'search') { %>
+      <h1>Search Results for "<%= searchQuery %>"</h1>
+      <p>Found <%= foods.length %> results matching your search</p>
+    <% } else { %>
+      <h1>My Food Listings</h1>
+      <p>Manage your food donations</p>
+    <% } %>
+  </div>
+  
+  <% if (user && user.role === 'donor' && !viewType) { %>
+    <div class="mb-4">
+      <a href="/donor/foods/new" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Create New Food Listing
+      </a>
+    </div>
+  <% } %>
+  
+  <!-- Filters -->
+  <% if (viewType) { %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Filters</h3>
+        <form action="<%= viewType === 'search' ? '/receiver/search' : '/receiver/browse' %>" method="GET" class="row g-3 align-items-end">
+          <% if (viewType === 'search') { %>
+            <input type="hidden" name="q" value="<%= searchQuery %>">
+          <% } %>
+          
+          <div class="col-md-4">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" name="category" class="form-control">
+              <option value="">All Categories</option>
+              <% categories.forEach(function(cat) { %>
+                <option value="<%= cat %>" <%= category === cat ? 'selected' : '' %>><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></option>
+              <% }); %>
+            </select>
+          </div>
+          
+          <div class="col-md-4">
+            <label for="sort" class="form-label">Sort By</label>
+            <select id="sort" name="sort" class="form-control">
+              <option value="newest" <%= sort === 'newest' ? 'selected' : '' %>>Newest First</option>
+              <option value="expiry" <%= sort === 'expiry' ? 'selected' : '' %>>Expiring Soon</option>
+            </select>
+          </div>
+          
+          <div class="col-md-4 d-flex">
+            <button type="submit" class="btn btn-primary flex-grow-1">Apply Filters</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="mb-4">
+      <form action="/donor/foods" method="GET" class="row g-3">
+        <div class="col-md-4">
+          <select name="status" class="form-control" onchange="this.form.submit()">
+            <option value="" <%= status === 'all' ? 'selected' : '' %>>All Listings</option>
+            <option value="available" <%= status === 'available' ? 'selected' : '' %>>Available</option>
+            <option value="reserved" <%= status === 'reserved' ? 'selected' : '' %>>Reserved</option>
+            <option value="completed" <%= status === 'completed' ? 'selected' : '' %>>Completed</option>
+            <option value="expired" <%= status === 'expired' ? 'selected' : '' %>>Expired</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  <% } %>
+  
+  <!-- Food Listings -->
+  <% if (viewType) { %>
+    <div class="card-grid">
+      <% if (foods && foods.length > 0) { %>
+        <% foods.forEach(function(food) { %>
+          <div class="card">
+            <% if (food.images && food.images.length > 0) { %>
+              <img src="/uploads/foods/<%= food.images[0] %>" class="card-img" alt="<%= food.title %>">
+            <% } else { %>
+              <img src="https://pixabay.com/get/g8fb9921fca1751866716f272f0c8a9b8afd9cc1b57a43e07b2c2fe0598b4066a959e557cf7722dd23fe56dede77a55ecd817a9304e7405d1c83af7ab38d99f6a_1280.jpg" class="card-img" alt="<%= food.title %>">
+            <% } %>
+            <div class="card-body">
+              <h3 class="card-title"><%= food.title %></h3>
+              <p class="card-text"><%= food.description.substring(0, 100) %>...</p>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="badge badge-<%= food.category === 'cooked food' ? 'warning' : food.category === 'packaged food' ? 'info' : 'success' %>">
+                  <%= food.category %>
+                </span>
+                <span>
+                  <i class="fas fa-utensils me-1"></i> 
+                  <%= food.quantity %> <%= food.unit %>
+                </span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span>
+                  <i class="fas fa-user me-1"></i> 
+                  <%= food.donor.name %>
+                </span>
+                <span>
+                  <i class="fas fa-clock me-1"></i> 
+                  Expires: <%= new Date(food.expiryDate).toLocaleDateString() %>
+                </span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="/receiver/foods/<%= food._id %>" class="btn btn-primary btn-block">View Details</a>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="col-12 text-center py-5">
+          <i class="fas fa-utensils fa-4x mb-3 text-muted"></i>
+          <h3>No Food Listings Found</h3>
+          <p>
+            <% if (viewType === 'search') { %>
+              No results matching your search criteria. Try different keywords or <a href="/receiver/browse">browse all available foods</a>.
+            <% } else if (viewType === 'browse') { %>
+              There are currently no food listings available. Please check back later!
+            <% } else { %>
+              You haven't created any food listings yet. <a href="/donor/foods/new">Create your first listing</a> now!
+            <% } %>
+          </p>
+        </div>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (foods && foods.length > 0) { %>
+            <% foods.forEach(function(food) { %>
+              <tr>
+                <td><%= food.title %></td>
+                <td><%= food.category %></td>
+                <td><%= food.quantity %> <%= food.unit %></td>
+                <td><%= new Date(food.expiryDate).toLocaleDateString() %></td>
+                <td>
+                  <% if (food.status === 'available') { %>
+                    <span class="badge badge-success">Available</span>
+                  <% } else if (food.status === 'reserved') { %>
+                    <span class="badge badge-warning">Reserved</span>
+                  <% } else if (food.status === 'completed') { %>
+                    <span class="badge badge-info">Completed</span>
+                  <% } else if (food.status === 'expired') { %>
+                    <span class="badge badge-danger">Expired</span>
+                  <% } else { %>
+                    <span class="badge badge-secondary"><%= food.status %></span>
+                  <% } %>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <% if (food.status === 'available') { %>
+                      <a href="/donor/foods/<%= food._id %>/edit" class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i> Edit
+                      </a>
+                      <form action="/donor/foods/<%= food._id %>?_method=DELETE" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to delete this listing?">
+                          <i class="fas fa-trash"></i> Delete
+                        </button>
+                      </form>
+                    <% } else { %>
+                      <a href="/donor/foods/<%= food._id %>/edit" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-eye"></i> View
+                      </a>
+                    <% } %>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="6" class="text-center">No food listings found. <a href="/donor/foods/new">Create your first listing!</a></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+  
+  <!-- Pagination -->
+  <% if (totalPages > 1) { %>
+    <nav aria-label="Food listings pagination">
+      <ul class="pagination justify-content-center">
+        <% if (page > 1) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= page - 1 %><%= viewType === 'search' ? '&q=' + searchQuery : '' %><%= category && category !== 'all' ? '&category=' + category : '' %><%= sort ? '&sort=' + sort : '' %><%= status && status !== 'all' ? '&status=' + status : '' %>">Previous</a>
+          </li>
+        <% } else { %>
+          <li class="page-item disabled">
+            <span class="page-link">Previous</span>
+          </li>
+        <% } %>
+        
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= page === i ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %><%= viewType === 'search' ? '&q=' + searchQuery : '' %><%= category && category !== 'all' ? '&category=' + category : '' %><%= sort ? '&sort=' + sort : '' %><%= status && status !== 'all' ? '&status=' + status : '' %>"><%= i %></a>
+          </li>
+        <% } %>
+        
+        <% if (page < totalPages) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= page + 1 %><%= viewType === 'search' ? '&q=' + searchQuery : '' %><%= category && category !== 'all' ? '&category=' + category : '' %><%= sort ? '&sort=' + sort : '' %><%= status && status !== 'all' ? '&status=' + status : '' %>">Next</a>
+          </li>
+        <% } else { %>
+          <li class="page-item disabled">
+            <span class="page-link">Next</span>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

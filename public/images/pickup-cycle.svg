@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f8f9fa" rx="10" ry="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">Food Donation Cycle</text>
+  
+  <!-- Circles for each stage -->
+  <circle cx="150" cy="200" r="70" fill="#4CAF50" opacity="0.8"/>
+  <circle cx="400" cy="200" r="70" fill="#2196F3" opacity="0.8"/>
+  <circle cx="650" cy="200" r="70" fill="#FF9800" opacity="0.8"/>
+  
+  <!-- Icons (simplified as text) -->
+  <text x="150" y="190" font-family="Arial" font-size="40" text-anchor="middle" fill="white">🍽️</text>
+  <text x="400" y="190" font-family="Arial" font-size="40" text-anchor="middle" fill="white">🚚</text>
+  <text x="650" y="190" font-family="Arial" font-size="40" text-anchor="middle" fill="white">🏠</text>
+  
+  <!-- Labels -->
+  <text x="150" y="240" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="white">Donate</text>
+  <text x="400" y="240" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="white">Pickup</text>
+  <text x="650" y="240" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="white">Receive</text>
+  
+  <!-- Arrows -->
+  <path d="M230,200 L320,200" stroke="#555" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M480,200 L570,200" stroke="#555" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M650,280 Q400,350 150,280" stroke="#555" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow Marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+  
+  <!-- Descriptions -->
+  <text x="150" y="320" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" width="120">List excess food for donation</text>
+  <text x="400" y="320" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" width="120">Arrange pickup or delivery</text>
+  <text x="650" y="320" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" width="120">Food reaches those in need</text>
+</svg>

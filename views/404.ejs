@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+
+<div class="container text-center py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="error-page">
+        <i class="fas fa-exclamation-circle fa-5x text-danger mb-4"></i>
+        <h1 class="display-1">404</h1>
+        <h2 class="mb-4">Page Not Found</h2>
+        <p class="lead mb-5">Oops! The page you are looking for does not exist or has been moved.</p>
+        
+        <div class="suggestions mb-5">
+          <h4>You might want to:</h4>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-arrow-left me-2"></i> <a href="javascript:history.back()">Go back to the previous page</a></li>
+            <li><i class="fas fa-home me-2"></i> <a href="/">Return to the homepage</a></li>
+            <li><i class="fas fa-search me-2"></i> <a href="/receiver/browse">Browse available food</a></li>
+            <li><i class="fas fa-question-circle me-2"></i> <a href="/contact">Contact us for help</a></li>
+          </ul>
+        </div>
+        
+        <a href="/" class="btn btn-primary btn-lg">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

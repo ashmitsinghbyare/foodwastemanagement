@@ -1,0 +1,271 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="section-heading">
+    <h1>Edit Food Listing</h1>
+    <p>Update the details of your food donation</p>
+  </div>
+  
+  <div class="form-container food-form">
+    <form action="/donor/foods/<%= food._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-7">
+          <h3>Food Information</h3>
+          
+          <div class="form-group">
+            <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+            <input type="text" id="title" name="title" class="form-control" required value="<%= food.title %>">
+          </div>
+          
+          <div class="form-group">
+            <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+            <textarea id="description" name="description" class="form-control" rows="4" required><%= food.description %></textarea>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
+                <select id="category" name="category" class="form-control" required>
+                  <option value="">Select Category</option>
+                  <option value="cooked food" <%= food.category === 'cooked food' ? 'selected' : '' %>>Cooked Food</option>
+                  <option value="raw food" <%= food.category === 'raw food' ? 'selected' : '' %>>Raw Food</option>
+                  <option value="packaged food" <%= food.category === 'packaged food' ? 'selected' : '' %>>Packaged Food</option>
+                  <option value="fruits" <%= food.category === 'fruits' ? 'selected' : '' %>>Fruits</option>
+                  <option value="vegetables" <%= food.category === 'vegetables' ? 'selected' : '' %>>Vegetables</option>
+                  <option value="bread" <%= food.category === 'bread' ? 'selected' : '' %>>Bread & Bakery</option>
+                  <option value="dairy" <%= food.category === 'dairy' ? 'selected' : '' %>>Dairy Products</option>
+                  <option value="other" <%= food.category === 'other' ? 'selected' : '' %>>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="expiryDate" class="form-label">Expiry Date <span class="text-danger">*</span></label>
+                <input type="date" id="expiryDate" name="expiryDate" class="form-control" required value="<%= new Date(food.expiryDate).toISOString().split('T')[0] %>">
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="quantity" class="form-label">Quantity <span class="text-danger">*</span></label>
+                <input type="number" id="quantity" name="quantity" class="form-control" required min="1" value="<%= food.quantity %>">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="unit" class="form-label">Unit <span class="text-danger">*</span></label>
+                <select id="unit" name="unit" class="form-control" required>
+                  <option value="">Select Unit</option>
+                  <option value="servings" <%= food.unit === 'servings' ? 'selected' : '' %>>Servings</option>
+                  <option value="kg" <%= food.unit === 'kg' ? 'selected' : '' %>>Kilograms (kg)</option>
+                  <option value="lb" <%= food.unit === 'lb' ? 'selected' : '' %>>Pounds (lb)</option>
+                  <option value="pieces" <%= food.unit === 'pieces' ? 'selected' : '' %>>Pieces</option>
+                  <option value="packages" <%= food.unit === 'packages' ? 'selected' : '' %>>Packages</option>
+                  <option value="boxes" <%= food.unit === 'boxes' ? 'selected' : '' %>>Boxes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Current Images</label>
+            <div class="d-flex flex-wrap gap-2">
+              <% if (food.images && food.images.length > 0) { %>
+                <% food.images.forEach(function(image) { %>
+                  <div class="position-relative">
+                    <img src="/uploads/foods/<%= image %>" alt="Food Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
+                    <div class="form-check mt-1">
+                      <input class="form-check-input" type="checkbox" name="removeImages" value="<%= image %>" id="remove-<%= image %>">
+                      <label class="form-check-label" for="remove-<%= image %>">Remove</label>
+                    </div>
+                  </div>
+                <% }); %>
+              <% } else { %>
+                <p>No images uploaded</p>
+              <% } %>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="foodImages" class="form-label">Add New Images</label>
+            <input type="file" id="foodImages" name="foodImages" class="form-control" accept="image/*" multiple>
+            <small class="form-text">Max 5 images total. Size limit: 5MB each. Allowed formats: JPG, PNG, GIF</small>
+          </div>
+          
+          <div id="imagePreviewContainer" class="d-flex flex-wrap gap-2 mt-2"></div>
+          
+          <h3 class="mt-4">Pickup Information</h3>
+          
+          <div class="form-group">
+            <label for="pickupStreet" class="form-label">Street Address <span class="text-danger">*</span></label>
+            <input type="text" id="pickupStreet" name="pickupStreet" class="form-control" required value="<%= food.pickupDetails.address.street %>">
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="pickupCity" class="form-label">City <span class="text-danger">*</span></label>
+                <input type="text" id="pickupCity" name="pickupCity" class="form-control" required value="<%= food.pickupDetails.address.city %>">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="pickupState" class="form-label">State/Province <span class="text-danger">*</span></label>
+                <input type="text" id="pickupState" name="pickupState" class="form-control" required value="<%= food.pickupDetails.address.state %>">
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="pickupPostalCode" class="form-label">Postal Code <span class="text-danger">*</span></label>
+                <input type="text" id="pickupPostalCode" name="pickupPostalCode" class="form-control" required value="<%= food.pickupDetails.address.postalCode %>">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="pickupCountry" class="form-label">Country <span class="text-danger">*</span></label>
+                <input type="text" id="pickupCountry" name="pickupCountry" class="form-control" required value="<%= food.pickupDetails.address.country %>">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="pickupInstructions" class="form-label">Pickup Instructions</label>
+            <textarea id="pickupInstructions" name="pickupInstructions" class="form-control" rows="2"><%= food.pickupDetails.instructions %></textarea>
+          </div>
+          
+          <h4 class="mt-3">Availability for Pickup <span class="text-danger">*</span></h4>
+          <div id="availability-container">
+            <% if (food.pickupDetails.availability && food.pickupDetails.availability.length > 0) { %>
+              <% food.pickupDetails.availability.forEach(function(avail) { %>
+                <div class="availability-row form-group">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <select name="availability" class="form-control" required>
+                        <option value="">Select Day</option>
+                        <option value="Monday|" <%= avail.day === 'Monday' ? 'selected' : '' %>>Monday</option>
+                        <option value="Tuesday|" <%= avail.day === 'Tuesday' ? 'selected' : '' %>>Tuesday</option>
+                        <option value="Wednesday|" <%= avail.day === 'Wednesday' ? 'selected' : '' %>>Wednesday</option>
+                        <option value="Thursday|" <%= avail.day === 'Thursday' ? 'selected' : '' %>>Thursday</option>
+                        <option value="Friday|" <%= avail.day === 'Friday' ? 'selected' : '' %>>Friday</option>
+                        <option value="Saturday|" <%= avail.day === 'Saturday' ? 'selected' : '' %>>Saturday</option>
+                        <option value="Sunday|" <%= avail.day === 'Sunday' ? 'selected' : '' %>>Sunday</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="time" class="form-control from-time" required value="<%= avail.from %>">
+                    </div>
+                    <div class="col-md-3">
+                      <input type="time" class="form-control to-time" required value="<%= avail.to %>">
+                    </div>
+                    <div class="col-md-2">
+                      <button type="button" class="btn btn-danger remove-availability">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <div class="availability-row form-group">
+                <div class="row">
+                  <div class="col-md-4">
+                    <select name="availability" class="form-control" required>
+                      <option value="">Select Day</option>
+                      <option value="Monday|">Monday</option>
+                      <option value="Tuesday|">Tuesday</option>
+                      <option value="Wednesday|">Wednesday</option>
+                      <option value="Thursday|">Thursday</option>
+                      <option value="Friday|">Friday</option>
+                      <option value="Saturday|">Saturday</option>
+                      <option value="Sunday|">Sunday</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="time" class="form-control from-time" required>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="time" class="form-control to-time" required>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          </div>
+          
+          <button type="button" id="add-availability" class="btn btn-outline-secondary mt-2">
+            <i class="fas fa-plus"></i> Add More Availability
+          </button>
+          
+          <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Update Food Listing</button>
+            <a href="/donor/foods" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </div>
+        
+        <div class="col-md-5">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title"><i class="fas fa-lightbulb text-warning"></i> Tips for Good Listings</h3>
+              <ul>
+                <li><strong>Clear Title:</strong> Be specific about what you're offering</li>
+                <li><strong>Detailed Description:</strong> Include ingredients, freshness, and any allergens</li>
+                <li><strong>Accurate Expiry:</strong> When will the food no longer be safe to consume?</li>
+                <li><strong>Quality Photos:</strong> Add clear images to help receivers identify the food</li>
+                <li><strong>Flexible Pickup:</strong> Provide multiple time slots if possible</li>
+                <li><strong>Safety First:</strong> Ensure food is properly stored and handled</li>
+              </ul>
+              
+              <div class="alert alert-info mt-3">
+                <h4><i class="fas fa-info-circle"></i> Remember</h4>
+                <p>Once your listing has been reserved or completed, you won't be able to edit most details.</p>
+              </div>
+              
+              <div class="alert alert-success mt-3">
+                <h4><i class="fas fa-heart"></i> Thank You!</h4>
+                <p>Your generosity is making a difference in reducing food waste and helping those in need.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners to all remove buttons
+    document.querySelectorAll('.remove-availability').forEach(button => {
+      button.addEventListener('click', function() {
+        this.closest('.availability-row').remove();
+      });
+    });
+    
+    // Update time inputs to modify the hidden input value
+    const updateAvailabilityValues = () => {
+      document.querySelectorAll('.availability-row').forEach(row => {
+        const daySelect = row.querySelector('select');
+        const fromTime = row.querySelector('.from-time').value;
+        const toTime = row.querySelector('.to-time').value;
+        
+        if (daySelect.value && fromTime && toTime) {
+          const baseValue = daySelect.value.split('|')[0] + '|';
+          daySelect.value = baseValue + fromTime + '-' + toTime;
+        }
+      });
+    };
+    
+    // Add event listeners to all time inputs
+    document.querySelectorAll('.from-time, .to-time').forEach(input => {
+      input.addEventListener('change', updateAvailabilityValues);
+    });
+    
+    // Update values before form submission
+    document.querySelector('form').addEventListener('submit', updateAvailabilityValues);
+  });
+</script>
+
+<%- include('../partials/footer') %>

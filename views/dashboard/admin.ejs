@@ -1,0 +1,282 @@
+<%- include('../partials/header') %>
+
+<div class="container dashboard admin-dashboard">
+  <div class="section-heading">
+    <h1>Admin Dashboard</h1>
+    <p>Manage the Food Waste Management System</p>
+  </div>
+  
+  <!-- Stats Overview -->
+  <div class="dashboard-grid">
+    <div class="stats-card">
+      <h3>Total Users</h3>
+      <div class="stats-value"><%= stats.users.total %></div>
+      <div class="stats-breakdown">
+        <small>Donors: <%= stats.users.donors %>, Receivers: <%= stats.users.receivers %></small>
+      </div>
+    </div>
+    
+    <div class="stats-card">
+      <h3>Food Listings</h3>
+      <div class="stats-value"><%= stats.foods.total %></div>
+      <div class="stats-breakdown">
+        <small>Available: <%= stats.foods.available %>, Completed: <%= stats.foods.completed %></small>
+      </div>
+    </div>
+    
+    <div class="stats-card">
+      <h3>Total Requests</h3>
+      <div class="stats-value"><%= stats.requests.total %></div>
+      <div class="stats-breakdown">
+        <small>Pending: <%= stats.requests.pending %>, Completed: <%= stats.requests.completed %></small>
+      </div>
+    </div>
+    
+    <div class="stats-card">
+      <h3>Food Saved</h3>
+      <div class="stats-value"><%= stats.requests.completed %></div>
+      <div class="stats-breakdown">
+        <small>Successful donations</small>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Admin Control Panel -->
+  <div class="row mt-4 mb-4">
+    <!-- Quick Actions -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title mb-3">Quick Actions</h2>
+          <div class="admin-actions">
+            <a href="/admin/users" class="btn btn-primary btn-block">
+              <i class="fas fa-users"></i> Manage Users
+            </a>
+            <a href="/admin/foods" class="btn btn-secondary btn-block">
+              <i class="fas fa-utensils"></i> Manage Food Listings
+            </a>
+            <a href="/admin/requests" class="btn btn-info btn-block">
+              <i class="fas fa-exchange-alt"></i> Manage Requests
+            </a>
+            <a href="/admin/stats" class="btn btn-success btn-block">
+              <i class="fas fa-chart-line"></i> View Statistics
+            </a>
+            <a href="/feedback/admin" class="btn btn-warning btn-block">
+              <i class="fas fa-comment-alt"></i> Manage Feedback
+            </a>
+            <a href="/profile" class="btn btn-outline btn-block">
+              <i class="fas fa-user-cog"></i> Manage Admin Profile
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Health -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title mb-3">System Health</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="stats-card mb-3">
+                <h3>Pending Approvals</h3>
+                <div class="stats-value text-warning"><%= stats.requests.pending %></div>
+                <div class="stats-breakdown">
+                  <small>Awaiting admin action</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stats-card mb-3">
+                <h3>System Utilization</h3>
+                <div class="stats-value text-info">Active</div>
+                <div class="stats-breakdown">
+                  <small>Last updated: <%= new Date().toLocaleString() %></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- System Notification -->
+  <div class="form-container">
+    <h3>Send System Notification</h3>
+    <form action="/admin/notify" method="POST">
+      <div class="form-group">
+        <label for="recipientType" class="form-label">Select Recipients:</label>
+        <select name="recipientType" id="recipientType" class="form-control" required>
+          <option value="all">All Users</option>
+          <option value="donors">Donors Only</option>
+          <option value="receivers">Receivers Only</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message" class="form-label">Message:</label>
+        <textarea name="message" id="message" rows="3" class="form-control" required placeholder="Enter your notification message..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Notification</button>
+    </form>
+  </div>
+  
+  <!-- Recent Users -->
+  <div class="recent-items">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Recent Users</h2>
+      <a href="/admin/users" class="btn btn-outline-primary">View All Users</a>
+    </div>
+    
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Joined</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recentUsers && recentUsers.length > 0) { %>
+            <% recentUsers.forEach(function(user) { %>
+              <tr>
+                <td>
+                  <img src="/uploads/profiles/<%= user.profileImage %>" alt="<%= user.name %>" class="rounded-circle me-2" width="30" height="30">
+                  <%= user.name %>
+                </td>
+                <td><%= user.email %></td>
+                <td><span class="badge <%= user.role === 'donor' ? 'badge-warning' : user.role === 'admin' ? 'badge-danger' : 'badge-info' %>"><%= user.role %></span></td>
+                <td><%= new Date(user.joinedDate).toLocaleDateString() %></td>
+                <td><%= user.isVerified ? '<span class="badge badge-success">Verified</span>' : '<span class="badge badge-danger">Unverified</span>' %></td>
+                <td>
+                  <a href="/admin/users/<%= user._id %>" class="btn btn-sm btn-primary">View Details</a>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="6" class="text-center">No users found.</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Recent Food Listings -->
+  <div class="recent-items">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Recent Food Listings</h2>
+      <a href="/admin/foods" class="btn btn-outline-primary">View All Foods</a>
+    </div>
+    
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Donor</th>
+            <th>Category</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recentFoods && recentFoods.length > 0) { %>
+            <% recentFoods.forEach(function(food) { %>
+              <tr>
+                <td><%= food.title %></td>
+                <td><%= food.donor.name %></td>
+                <td><%= food.category %></td>
+                <td><%= new Date(food.expiryDate).toLocaleDateString() %></td>
+                <td>
+                  <% if (food.status === 'available') { %>
+                    <span class="badge badge-success">Available</span>
+                  <% } else if (food.status === 'reserved') { %>
+                    <span class="badge badge-warning">Reserved</span>
+                  <% } else if (food.status === 'completed') { %>
+                    <span class="badge badge-info">Completed</span>
+                  <% } else if (food.status === 'expired') { %>
+                    <span class="badge badge-danger">Expired</span>
+                  <% } else { %>
+                    <span class="badge badge-secondary"><%= food.status %></span>
+                  <% } %>
+                </td>
+                <td>
+                  <a href="/admin/foods/<%= food._id %>" class="btn btn-sm btn-primary">View Details</a>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="6" class="text-center">No food listings found.</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Recent Requests -->
+  <div class="recent-items">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Recent Requests</h2>
+      <a href="/admin/requests" class="btn btn-outline-primary">View All Requests</a>
+    </div>
+    
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Donor</th>
+            <th>Receiver</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recentRequests && recentRequests.length > 0) { %>
+            <% recentRequests.forEach(function(request) { %>
+              <tr>
+                <td><%= request.food.title %></td>
+                <td><%= request.donor.name %></td>
+                <td><%= request.receiver.name %></td>
+                <td><%= new Date(request.createdAt).toLocaleDateString() %></td>
+                <td>
+                  <% if (request.status === 'pending') { %>
+                    <span class="badge badge-warning">Pending</span>
+                  <% } else if (request.status === 'approved') { %>
+                    <span class="badge badge-success">Approved</span>
+                  <% } else if (request.status === 'rejected') { %>
+                    <span class="badge badge-danger">Rejected</span>
+                  <% } else if (request.status === 'completed') { %>
+                    <span class="badge badge-info">Completed</span>
+                  <% } else { %>
+                    <span class="badge badge-secondary"><%= request.status %></span>
+                  <% } %>
+                </td>
+                <td>
+                  <a href="/admin/requests/<%= request._id %>" class="btn btn-sm btn-primary">View Details</a>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="6" class="text-center">No requests found.</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

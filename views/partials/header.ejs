@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | Food Waste Management System</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="/" class="logo">Food<span>Share</span></a>
+        
+        <div class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
+        
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'home' ? 'active' : '' %>">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="/about" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'about' ? 'active' : '' %>">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="/contact" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'contact' ? 'active' : '' %>">Contact</a>
+          </li>
+          
+          <% if (user) { %>
+            <!-- If user is logged in -->
+            <li class="nav-item">
+              <a href="/dashboard" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+            </li>
+            
+            <% if (user.role === 'donor') { %>
+              <li class="nav-item">
+                <a href="/donor/foods/new" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'create-food' ? 'active' : '' %>">Donate Food</a>
+              </li>
+            <% } else if (user.role === 'receiver') { %>
+              <li class="nav-item">
+                <a href="/receiver/browse" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'browse' ? 'active' : '' %>">Browse Foods</a>
+              </li>
+            <% } else if (user.role === 'admin') { %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-user-shield"></i> Admin
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                  <li><a class="dropdown-item" href="/admin/dashboard">Dashboard</a></li>
+                  <li><a class="dropdown-item" href="/admin/users">Users</a></li>
+                  <li><a class="dropdown-item" href="/admin/foods">Food Listings</a></li>
+                  <li><a class="dropdown-item" href="/admin/requests">Requests</a></li>
+                  <li><a class="dropdown-item" href="/feedback/admin">Feedback</a></li>
+                </ul>
+              </li>
+            <% } %>
+            
+            <li class="nav-item">
+              <a href="/notifications" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'notifications' ? 'active' : '' %>">
+                <i class="fas fa-bell"></i> Notifications
+                <% if (locals.unreadNotificationCount && unreadNotificationCount > 0) { %>
+                  <span class="notification-badge"><%= unreadNotificationCount %></span>
+                <% } %>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/profile" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'profile' ? 'active' : '' %>">
+                <i class="fas fa-user"></i> Profile
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/auth/logout" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </li>
+          <% } else { %>
+            <!-- If user is not logged in -->
+            <li class="nav-item">
+              <a href="/auth/login" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'login' ? 'active' : '' %>">Login</a>
+            </li>
+            <li class="nav-item">
+              <a href="/auth/register" class="nav-link <%= typeof activeLink !== 'undefined' && activeLink === 'register' ? 'active' : '' %>">Register</a>
+            </li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Flash Messages -->
+  <%- include('./messages') %>
+  
+  <!-- Main Content -->
+  <main>
