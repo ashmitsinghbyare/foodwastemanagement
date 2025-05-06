@@ -1112,6 +1112,32 @@ a:hover {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.footer-links a {
+  color: #ccc;
+  position: relative;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -3px;
+  background-color: #00b894;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #00b894;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
 /* ===== NOTIFICATIONS ===== */
 .notification-list {
   max-height: 500px;
