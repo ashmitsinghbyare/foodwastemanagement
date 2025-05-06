@@ -79,11 +79,11 @@ const connectDB = async () => {
     const conn = await mongoose.connect(mongoURI, options);
     isConnected = true;
 
-    console.log(MongoDB Connected: ${conn.connection.host});
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
 
     // Connection event handlers
     mongoose.connection.on('error', (err) => {
-      console.error(MongoDB connection error: ${err});
+      console.error(`MongoDB connection error: ${err}`);
       isConnected = false;
     });
 
@@ -100,7 +100,7 @@ const connectDB = async () => {
 
     return conn;
   } catch (err) {
-    console.error(Error connecting to MongoDB: ${err.message});
+    console.error(`Error connecting to MongoDB: ${err.message}`);
     console.error('Ensure the URI is correct and accessible. If using Atlas, verify the IP whitelist.');
 
     if (process.env.NODE_ENV === 'production') {
