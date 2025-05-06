@@ -36,7 +36,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ 
-    mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/foodwaste',
+    mongoUrl: process.env.MONGODB_URI,
     collectionName: 'sessions'
   }),
   cookie: {
@@ -98,6 +98,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).render('500', {
     title: '500 - Server Error',
-    error: process.env.NODE_ENV === 'development' ? err : {}
+    error: process.env.NODE_ENV === 'production' ? err : {}
   });
 });
