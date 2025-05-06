@@ -1088,9 +1088,23 @@ a:hover {
   transition: background-color 0.3s;
 }
 
-.social-icon:hover {
+/*.social-icon:hover {
   background-color: var(--primary-color);
+}*/
+
+.social-icon {
+  color: #fff;
+  transition: color 0.3s;
 }
+
+.social-icon:hover {
+  color: inherit;
+}
+
+.social-icon:hover .fab.fa-facebook-f { color: #3b5998; }     /* Facebook */
+.social-icon:hover .fab.fa-twitter { color: #1da1f2; }         /* Twitter */
+.social-icon:hover .fab.fa-instagram { color: #e1306c; }       /* Instagram */
+.social-icon:hover .fab.fa-linkedin-in { color: #0077b5; }     /* LinkedIn */
 
 .footer-bottom {
   text-align: center;
