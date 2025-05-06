@@ -1138,6 +1138,28 @@ a:hover {
   width: 100%;
 }
 
+.footer-links li {
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.footer-links li i {
+  color: #aaa;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-links li:hover {
+  color: #00b894; /* Match the link hover color */
+}
+
+.footer-links li:hover i {
+  color: #00b894;
+  transform: scale(1.2); /* Slightly enlarge the icon */
+}
+
 /* ===== NOTIFICATIONS ===== */
 .notification-list {
   max-height: 500px;
