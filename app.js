@@ -42,7 +42,7 @@ connectDB().then(() => {
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ 
-      mongoUrl: process.env.MONGODB_URI,
+      mongoUrl: process.env.MONGODB_URI ||'mongodb://localhost:27017/foodwaste',
       collectionName: 'sessions'
     }),
     cookie: {
