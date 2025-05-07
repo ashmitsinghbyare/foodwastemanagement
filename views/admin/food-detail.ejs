@@ -51,6 +51,11 @@
   <% } %>
 
   <a href="/admin/foods" class="btn btn-secondary mt-4">← Back to Food Listings</a>
+   <!-- Delete Food Form -->
+   <form action="/admin/foods/delete/<%= food._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this food listing?');">
+    <button type="submit" class="btn btn-danger">Delete Food</button>
+  </form>
 </div>
 
 <%- include('../partials/footer') %>
+
