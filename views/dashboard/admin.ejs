@@ -149,10 +149,11 @@
                   <img src="/uploads/profiles/<%= user.profileImage %>" alt="<%= user.name %>" class="rounded-circle me-2" width="30" height="30">
                   <%= user.name %>
                 </td>
-                <td><%= user.email %></td>
-                <td><span class="badge <%= user.role === 'donor' ? 'badge-warning' : user.role === 'admin' ? 'badge-danger' : 'badge-info' %>"><%= user.role %></span></td>
+            <td><%= user.role %></td>
+
                 <td><%= new Date(user.joinedDate).toLocaleDateString() %></td>
-                <td><%= user.isVerified ? '<span class="badge badge-success">Verified</span>' : '<span class="badge badge-danger">Unverified</span>' %></td>
+                <td><%= user.isVerified ? 'Verified' : 'Unverified' %></td>
+
                 <td>
                   <a href="/admin/users/<%= user._id %>" class="btn btn-sm btn-primary">View Details</a>
                 </td>
