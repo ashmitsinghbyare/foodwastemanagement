@@ -3,12 +3,7 @@
 <div class="container mt-5">
   <h2>Request Management</h2>
 
-  <% if (typeof error_msg !== 'undefined') { %>
-    <div class="alert alert-danger"><%= error_msg %></div>
-  <% } %>
-  <% if (typeof success_msg !== 'undefined') { %>
-    <div class="alert alert-success"><%= success_msg %></div>
-  <% } %>
+
 
   <!-- Filter Form -->
   <form class="row g-3 mb-4" method="GET" action="/admin/requests">
