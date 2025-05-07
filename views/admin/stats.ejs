@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+
+
+<div class="container">
+  <h2><%= title %></h2>
+  <form method="GET" action="/admin/stats">
+    <select name="timeRange" onchange="this.form.submit()">
+      <option value="all" <%= timeRange === 'all' ? 'selected' : '' %>>All Time</option>
+      <option value="today" <%= timeRange === 'today' ? 'selected' : '' %>>Today</option>
+      <option value="week" <%= timeRange === 'week' ? 'selected' : '' %>>This Week</option>
+      <option value="month" <%= timeRange === 'month' ? 'selected' : '' %>>This Month</option>
+      <option value="year" <%= timeRange === 'year' ? 'selected' : '' %>>This Year</option>
+    </select>
+  </form>
+
+  <div class="stats-cards">
+    <div class="stats-card">
+      <h3>Total Users</h3>
+      <div class="stats-value"><%= userStats.total %></div>
+      <div class="stats-breakdown">
+        <small>Donors: <%= userStats.donors %>, Receivers: <%= userStats.receivers %></small>
+      </div>
+    </div>
+
+    <div class="stats-card">
+      <h3>New Users</h3>
+      <div class="stats-value"><%= userStats.newUsers %></div>
+    </div>
+
+    <div class="stats-card">
+      <h3>Total Food Listings</h3>
+      <div class="stats-value"><%= foodStats.total %></div>
+      <div class="stats-breakdown">
+        <small>Available: <%= foodStats.available %>, Reserved: <%= foodStats.reserved %>, Completed: <%= foodStats.completed %>, Expired: <%= foodStats.expired %></small>
+      </div>
+    </div>
+
+    <div class="stats-card">
+      <h3>New Food Listings</h3>
+      <div class="stats-value"><%= foodStats.newListings %></div>
+    </div>
+
+    <div class="stats-card">
+      <h3>Total Requests</h3>
+      <div class="stats-value"><%= requestStats.total %></div>
+      <div class="stats-breakdown">
+        <small>Pending: <%= requestStats.pending %>, Approved: <%= requestStats.approved %>, Completed: <%= requestStats.completed %>, Rejected: <%= requestStats.rejected %>, Cancelled: <%= requestStats.cancelled %></small>
+      </div>
+    </div>
+
+    <div class="stats-card">
+      <h3>New Requests</h3>
+      <div class="stats-value"><%= requestStats.newRequests %></div>
+    </div>
+  </div>
+</div>
+
+
+
+<%- include('../partials/footer') %>
