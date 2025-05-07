@@ -55,6 +55,7 @@ router.put('/requests/:id/reject', ensureAuthenticated, ensureDonor, donorContro
 
 // Mark request as completed
 router.put('/requests/:id/complete', ensureAuthenticated, ensureDonor, donorController.completeRequest);
+router.post('/requests/:id/complete', ensureAuthenticated, ensureDonor, donorController.completeRequest);
 
 // Leave feedback for receiver
 router.post('/requests/:id/feedback', ensureAuthenticated, ensureDonor, donorController.leaveFeedback);
