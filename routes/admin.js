@@ -30,6 +30,7 @@ router.put('/foods/:id/moderate', ensureAuthenticated, ensureAdmin, adminControl
 
 // Delete food listing
 router.delete('/foods/:id', ensureAuthenticated, ensureAdmin, adminController.deleteFood);
+router.post('/foods/delete/:id',ensureAuthenticated , adminController.deleteFood);
 
 // Requests management
 router.get('/requests', ensureAuthenticated, ensureAdmin, adminController.getRequests);
