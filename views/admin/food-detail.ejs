@@ -3,8 +3,6 @@
 <div class="container mt-5">
   <h2>Food Listing Details</h2>
 
- 
-
   <!-- Food Details Card -->
   <div class="card mb-4">
     <div class="card-body">
@@ -50,11 +48,15 @@
     </table>
   <% } %>
 
-  <a href="/admin/foods" class="btn btn-secondary mt-4">← Back to Food Listings</a>
-   <!-- Delete Food Form -->
-   <form action="/admin/foods/delete/<%= food._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this food listing?');">
-    <button type="submit" class="btn btn-danger">Delete Food</button>
-  </form>
+  <!-- Action Buttons -->
+  <div class="mt-4 d-flex gap-3">
+    <a href="/admin/foods" class="btn btn-secondary">← Back to Food Listings</a>
+
+    <!-- Delete Food Form -->
+    <form action="/admin/foods/delete/<%= food._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this food listing?');">
+      <button type="submit" class="btn btn-danger">Delete Food</button>
+    </form>
+  </div>
 </div>
 
 <%- include('../partials/footer') %>
