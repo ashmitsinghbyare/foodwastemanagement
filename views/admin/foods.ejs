@@ -1,0 +1,72 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="container mt-5">
+  <h2>Food Listings Management</h2>
+
+  <% if (typeof error_msg !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+  <% } %>
+
+  <!-- Filter/Search Form -->
+  <form class="row g-3 mb-4" method="GET" action="/admin/foods">
+    <div class="col-md-3">
+      <select class="form-select" name="status">
+        <option value="all" <%= filter.status === 'all' ? 'selected' : '' %>>All Statuses</option>
+        <option value="available" <%= filter.status === 'available' ? 'selected' : '' %>>Available</option>
+        <option value="claimed" <%= filter.status === 'claimed' ? 'selected' : '' %>>Claimed</option>
+        <option value="expired" <%= filter.status === 'expired' ? 'selected' : '' %>>Expired</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <input type="text" name="search" class="form-control" placeholder="Search food title or description" value="<%= filter.search %>">
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+    </div>
+  </form>
+
+  <!-- Food Listings Table -->
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Donor</th>
+        <th>Status</th>
+        <th>Posted On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (foods.length === 0) { %>
+        <tr>
+          <td colspan="4" class="text-center">No food listings found.</td>
+        </tr>
+      <% } else { %>
+        <% foods.forEach(food => { %>
+          <tr>
+            <td><%= food.title %></td>
+            <td><%= food.donor?.name || 'Unknown' %></td>
+            <td><%= food.status %></td>
+            <td><%= new Date(food.createdAt).toLocaleDateString() %></td>
+          </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <% if (totalPages > 1) { %>
+    <nav>
+      <ul class="pagination">
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= i === page ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %>&status=<%= filter.status %>&search=<%= filter.search %>"><%= i %></a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  <% } %>
+
+  <a href="/admin/dashboard" class="btn btn-secondary mt-3">← Back to Dashboard</a>
+</div>
+
+<%- include('../partials/footer') %>
