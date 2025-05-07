@@ -1,0 +1,58 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="container mt-5">
+  <h2>Food Listing Details</h2>
+
+  <% if (typeof error_msg !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+  <% } %>
+
+  <!-- Food Details Card -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title"><%= food.title %></h4>
+      <p><strong>Description:</strong> <%= food.description %></p>
+      <p><strong>Status:</strong> <%= food.status %></p>
+      <p><strong>Created At:</strong> <%= new Date(food.createdAt).toLocaleDateString() %></p>
+    </div>
+  </div>
+
+  <!-- Donor Information -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Donor Information</h5>
+      <p><strong>Name:</strong> <%= food.donor?.name || 'N/A' %></p>
+      <p><strong>Email:</strong> <%= food.donor?.email || 'N/A' %></p>
+      <p><strong>Phone:</strong> <%= food.donor?.phone || 'N/A' %></p>
+    </div>
+  </div>
+
+  <!-- Associated Requests -->
+  <h4 class="mb-3">Requests for this Listing</h4>
+  <% if (requests.length === 0) { %>
+    <div class="alert alert-info">No requests have been made for this food item yet.</div>
+  <% } else { %>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Receiver Name</th>
+          <th>Email</th>
+          <th>Requested At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% requests.forEach(request => { %>
+          <tr>
+            <td><%= request.receiver?.name || 'Unknown' %></td>
+            <td><%= request.receiver?.email || 'Unknown' %></td>
+            <td><%= new Date(request.createdAt).toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <a href="/admin/foods" class="btn btn-secondary mt-4">← Back to Food Listings</a>
+</div>
+
+<%- include('../partials/footer') %>
