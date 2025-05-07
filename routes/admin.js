@@ -17,6 +17,7 @@ router.put('/users/:id', ensureAuthenticated, ensureAdmin, adminController.updat
 
 // Delete user
 router.delete('/users/:id', ensureAuthenticated, ensureAdmin, adminController.deleteUser);
+router.post('/users/delete/:id',ensureAuthenticated , adminController.deleteUser);
 
 // Food listings management
 router.get('/foods', ensureAuthenticated, ensureAdmin, adminController.getFoods);
