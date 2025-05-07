@@ -39,6 +39,8 @@ router.get('/requests/:id', ensureAuthenticated, ensureAdmin, adminController.ge
 
 // Moderate request
 router.put('/requests/:id/moderate', ensureAuthenticated, ensureAdmin, adminController.moderateRequest);
+// Moderate request
+router.post('/requests/:id/moderate', ensureAuthenticated, ensureAdmin, adminController.moderateRequest);
 
 // System statistics
 router.get('/stats', ensureAuthenticated, ensureAdmin, adminController.getStats);
