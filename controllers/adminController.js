@@ -353,52 +353,56 @@ exports.moderateFood = async (req, res) => {
 };
 
 // Delete food listing
+
 exports.deleteFood = async (req, res) => {
   try {
     const food = await Food.findById(req.params.id);
-    
+
     if (!food) {
       req.flash('error_msg', 'Food listing not found');
       return res.redirect('/admin/foods');
     }
-    
+
     // Delete associated requests
     await Request.deleteMany({ food: food._id });
-    
-    // Delete images
-    if (food.images && food.images.length) {
-      food.images.forEach(filename => {
+
+    // Delete associated images
+    if (food.images && food.images.length > 0) {
+      for (const filename of food.images) {
         const imagePath = path.join(__dirname, '../public/uploads/foods', filename);
-        fs.unlink(imagePath, err => {
-          if (err) console.error(`Failed to delete image: ${err}`);
-        });
-      });
+        try {
+          await fs.unlink(imagePath);
+        } catch (err) {
+          console.error(`Failed to delete image '${filename}':`, err);
+        }
+      }
     }
-    
-    // Notify donor
-    await new Notification({
-      recipient: food.donor,
-      type: 'system',
-      message: `Your food listing "${food.title}" has been removed by an administrator`,
-      relatedTo: {
-        model: 'User',
-        id: food.donor
-      },
-      url: `/donor/foods`
-    }).save();
-    
-    // Delete food
+
+    // Notify donor (if exists)
+    if (food.donor) {
+      await new Notification({
+        recipient: food.donor,
+        type: 'system',
+        message: `Your food listing "${food.title}" has been removed by an administrator.`,
+        relatedTo: {
+          model: 'User',
+          id: food.donor
+        },
+        url: '/donor/foods'
+      }).save();
+    }
+
+    // Delete the food listing
     await food.deleteOne();
-    
+
     req.flash('success_msg', 'Food listing deleted successfully');
     res.redirect('/admin/foods');
   } catch (err) {
-    console.error(err);
+    console.error('Error deleting food listing:', err);
     req.flash('error_msg', 'Failed to delete food listing');
     res.redirect('/admin/foods');
   }
 };
-
 // Get all requests
 exports.getRequests = async (req, res) => {
   try {
