@@ -188,60 +188,57 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    
+
     if (!user) {
       req.flash('error_msg', 'User not found');
       return res.redirect('/admin/users');
     }
-    
-    // Check if trying to delete self
-    if (user._id.toString() === req.user._id.toString()) {
+
+    // Prevent self-deletion
+    if (req.user && user._id.toString() === req.user._id.toString()) {
       req.flash('error_msg', 'You cannot delete your own account');
       return res.redirect('/admin/users');
     }
-    
-    // Delete user's profile image
+
+    // Delete profile image
     if (user.profileImage && user.profileImage !== 'default-profile.png') {
       const imagePath = path.join(__dirname, '../public/uploads/profiles', user.profileImage);
       fs.unlink(imagePath, err => {
-        if (err) console.error(`Failed to delete image: ${err}`);
+        if (err) console.error(`Failed to delete profile image: ${err}`);
       });
     }
-    
-    // Delete user's food listings and images
+
+    // Delete food listings and their images
     const foods = await Food.find({ donor: user._id });
-    
+
     for (const food of foods) {
       if (food.images && food.images.length) {
-        food.images.forEach(filename => {
+        for (const filename of food.images) {
           const imagePath = path.join(__dirname, '../public/uploads/foods', filename);
           fs.unlink(imagePath, err => {
-            if (err) console.error(`Failed to delete image: ${err}`);
+            if (err) console.error(`Failed to delete food image: ${err}`);
           });
-        });
+        }
       }
     }
-    
-    // Delete user's data
+
+    // Delete food entries, requests, and notifications
     await Food.deleteMany({ donor: user._id });
-    await Request.deleteMany({ 
-      $or: [{ donor: user._id }, { receiver: user._id }]
-    });
-    await Notification.deleteMany({
-      recipient: user._id
-    });
-    
-    // Delete user
+    await Request.deleteMany({ $or: [{ donor: user._id }, { receiver: user._id }] });
+    await Notification.deleteMany({ recipient: user._id });
+
+    // Finally, delete the user
     await user.deleteOne();
-    
+
     req.flash('success_msg', 'User deleted successfully');
     res.redirect('/admin/users');
   } catch (err) {
-    console.error(err);
+    console.error('Error deleting user:', err);
     req.flash('error_msg', 'Failed to delete user');
     res.redirect('/admin/users');
   }
 };
+
 
 // Get all food listings
 exports.getFoods = async (req, res) => {
