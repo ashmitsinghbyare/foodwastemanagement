@@ -3,9 +3,7 @@
 <div class="container mt-5">
   <h2>User Management</h2>
 
-  <% if (typeof error_msg !== 'undefined') { %>
-    <div class="alert alert-danger"><%= error_msg %></div>
-  <% } %>
+
 
   <!-- Filter/Search Form -->
   <form class="row g-3 mb-4" method="GET" action="/admin/users">
@@ -26,32 +24,42 @@
   </form>
 
   <!-- Users Table -->
-  <table class="table table-bordered table-hover">
-    <thead>
+ <!-- Users Table -->
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Joined Date</th>
+      <th>Actions</th> <!-- New column -->
+    </tr>
+  </thead>
+  <tbody>
+    <% if (users.length === 0) { %>
       <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Joined Date</th>
+        <td colspan="5" class="text-center">No users found.</td> <!-- Adjusted colspan -->
       </tr>
-    </thead>
-    <tbody>
-      <% if (users.length === 0) { %>
+    <% } else { %>
+      <% users.forEach(user => { %>
         <tr>
-          <td colspan="4" class="text-center">No users found.</td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.role %></td>
+          <td><%= new Date(user.joinedDate).toLocaleDateString() %></td>
+          <td>
+            <!-- Delete User Form -->
+            <form action="/admin/users/delete/<%= user._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+            
+          </td>
         </tr>
-      <% } else { %>
-        <% users.forEach(user => { %>
-          <tr>
-            <td><%= user.name %></td>
-            <td><%= user.email %></td>
-            <td><%= user.role %></td>
-            <td><%= new Date(user.joinedDate).toLocaleDateString() %></td>
-          </tr>
-        <% }) %>
-      <% } %>
-    </tbody>
-  </table>
+      <% }) %>
+    <% } %>
+  </tbody>
+</table>
+
 
   <!-- Pagination -->
   <% if (totalPages > 1) { %>
@@ -70,3 +78,4 @@
 </div>
 
 <%- include('../partials/footer') %>
+
