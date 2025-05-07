@@ -1,0 +1,52 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="container mt-5">
+  <h2>User Details</h2>
+
+  <% if (typeof error_msg !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+  <% } %>
+
+  <!-- User Info -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title"><%= userDetails.name %></h4>
+      <p><strong>Email:</strong> <%= userDetails.email %></p>
+      <p><strong>Role:</strong> <%= userDetails.role %></p>
+      <p><strong>Joined:</strong> <%= new Date(userDetails.joinedDate).toLocaleDateString() %></p>
+    </div>
+  </div>
+
+  <!-- User Activity -->
+  <div class="row text-center mb-4">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Food Contributions</h5>
+          <p class="display-6"><%= activity.foodCount %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Requests Made</h5>
+          <p class="display-6"><%= activity.requestsMade %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Requests Received</h5>
+          <p class="display-6"><%= activity.requestsReceived %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <a href="/admin/users" class="btn btn-secondary">← Back to User List</a>
+</div>
+
+<%- include('../partials/footer') %>
