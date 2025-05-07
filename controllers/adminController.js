@@ -243,29 +243,36 @@ exports.deleteUser = async (req, res) => {
 // Get all food listings
 exports.getFoods = async (req, res) => {
   try {
-    // Pagination
     const page = parseInt(req.query.page) || 1;
     const limit = 20;
     const skip = (page - 1) * limit;
-    
-    // Filtering
+
     const filter = {};
-    if (req.query.status) {
-      filter.status = req.query.status;
+
+    // Status filter logic
+    const status = req.query.status;
+    if (status && status !== 'all') {
+      if (status === 'pending') {
+        filter.isApproved = false;
+      } else {
+        filter.status = status;
+      }
     }
+
+    // Search filter
     if (req.query.search) {
       filter.$text = { $search: req.query.search };
     }
-    
+
     const totalFoods = await Food.countDocuments(filter);
     const totalPages = Math.ceil(totalFoods / limit);
-    
+
     const foods = await Food.find(filter)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .populate('donor', 'name');
-    
+
     res.render('admin/foods', {
       title: 'Food Listings Management',
       foods,
