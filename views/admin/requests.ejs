@@ -1,0 +1,92 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="container mt-5">
+  <h2>Request Management</h2>
+
+  <% if (typeof error_msg !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+  <% } %>
+  <% if (typeof success_msg !== 'undefined') { %>
+    <div class="alert alert-success"><%= success_msg %></div>
+  <% } %>
+
+  <!-- Filter Form -->
+  <form class="row g-3 mb-4" method="GET" action="/admin/requests">
+    <div class="col-md-3">
+      <select class="form-select" name="status">
+        <option value="all" <%= filter.status === 'all' ? 'selected' : '' %>>All Statuses</option>
+        <option value="pending" <%= filter.status === 'pending' ? 'selected' : '' %>>Pending</option>
+        <option value="approved" <%= filter.status === 'approved' ? 'selected' : '' %>>Approved</option>
+        <option value="rejected" <%= filter.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+        <option value="completed" <%= filter.status === 'completed' ? 'selected' : '' %>>Completed</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+    </div>
+  </form>
+
+  <!-- Requests Table -->
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Food</th>
+        <th>Donor</th>
+        <th>Receiver</th>
+        <th>Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (requests.length === 0) { %>
+        <tr>
+          <td colspan="6" class="text-center">No requests found.</td>
+        </tr>
+      <% } else { %>
+        <% requests.forEach(request => { %>
+          <tr>
+            <td><%= request.food?.title || 'N/A' %></td>
+            <td><%= request.donor?.name || 'N/A' %></td>
+            <td><%= request.receiver?.name || 'N/A' %></td>
+            <td>
+              <span class="badge <%= request.status === 'pending' ? 'bg-warning' : request.status === 'approved' ? 'bg-success' : request.status === 'rejected' ? 'bg-danger' : 'bg-secondary' %>">
+                <%= request.status.charAt(0).toUpperCase() + request.status.slice(1) %>
+              </span>
+            </td>
+            <td><%= new Date(request.createdAt).toLocaleDateString() %></td>
+            <td>
+              <a href="/admin/requests/<%= request._id %>" class="btn btn-info btn-sm">View</a>
+              <form action="/admin/requests/<%= request._id %>/moderate" method="POST" class="d-inline">
+                <select name="status" class="form-select form-select-sm">
+                  <option value="pending" <%= request.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="approved" <%= request.status === 'approved' ? 'selected' : '' %>>Approved</option>
+                  <option value="rejected" <%= request.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+                  <option value="completed" <%= request.status === 'completed' ? 'selected' : '' %>>Completed</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm mt-2">Update Status</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <% if (totalPages > 1) { %>
+    <nav>
+      <ul class="pagination">
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= i === page ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %>&status=<%= filter.status %>">
+              <%= i %>
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
