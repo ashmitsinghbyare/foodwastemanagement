@@ -76,7 +76,7 @@ exports.postRegister = async (req, res) => {
     }
 
     // Check valid role
-    const validRoles = ['donor', 'receiver'];
+    const validRoles = ['donor', 'receiver' , 'admin'];
     if (!validRoles.includes(role)) {
       errors.push({ msg: 'Please select a valid role' });
     }
