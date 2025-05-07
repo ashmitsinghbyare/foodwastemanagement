@@ -1,0 +1,72 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="container mt-5">
+  <h2>User Management</h2>
+
+  <% if (typeof error_msg !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+  <% } %>
+
+  <!-- Filter/Search Form -->
+  <form class="row g-3 mb-4" method="GET" action="/admin/users">
+    <div class="col-md-3">
+      <select class="form-select" name="role">
+        <option value="all" <%= filter.role === 'all' ? 'selected' : '' %>>All Roles</option>
+        <option value="admin" <%= filter.role === 'admin' ? 'selected' : '' %>>Admin</option>
+        <option value="receiver" <%= filter.role === 'receiver' ? 'selected' : '' %>>Receiver</option>
+        <option value="donor" <%= filter.role === 'donor' ? 'selected' : '' %>>Donor</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <input type="text" name="search" class="form-control" placeholder="Search by name or email" value="<%= filter.search %>">
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+    </div>
+  </form>
+
+  <!-- Users Table -->
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Joined Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (users.length === 0) { %>
+        <tr>
+          <td colspan="4" class="text-center">No users found.</td>
+        </tr>
+      <% } else { %>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td><%= user.role %></td>
+            <td><%= new Date(user.joinedDate).toLocaleDateString() %></td>
+          </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <% if (totalPages > 1) { %>
+    <nav>
+      <ul class="pagination">
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= i === page ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %>&role=<%= filter.role %>&search=<%= filter.search %>">
+              <%= i %>
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
