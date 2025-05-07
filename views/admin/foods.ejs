@@ -7,11 +7,12 @@
   <!-- Filter/Search Form -->
   <form class="row g-3 mb-4" method="GET" action="/admin/foods">
     <div class="col-md-3">
-      <select class="form-select" name="status">
+       <select class="form-select" name="status">
         <option value="all" <%= filter.status === 'all' ? 'selected' : '' %>>All Statuses</option>
         <option value="available" <%= filter.status === 'available' ? 'selected' : '' %>>Available</option>
-        <option value="claimed" <%= filter.status === 'claimed' ? 'selected' : '' %>>Claimed</option>
+        <option value="completed" <%= filter.status === 'completed' ? 'selected' : '' %>>Completed</option>
         <option value="expired" <%= filter.status === 'expired' ? 'selected' : '' %>>Expired</option>
+        <option value="pending" <%= filter.status === 'pending' ? 'selected' : '' %>>Pending Approval</option>
       </select>
     </div>
     <div class="col-md-6">
