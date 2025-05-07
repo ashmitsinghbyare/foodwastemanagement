@@ -1,0 +1,52 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="container mt-5">
+  <h2>Request Details</h2>
+
+  <% if (typeof error_msg !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+  <% } %>
+
+  <!-- Request Information Card -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title">Request for <%= request.food?.title || 'N/A' %></h4>
+      <p><strong>Status:</strong> <%= request.status %></p>
+      <p><strong>Created At:</strong> <%= new Date(request.createdAt).toLocaleString() %></p>
+    </div>
+  </div>
+
+  <!-- Donor Information -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Donor Information</h5>
+      <p><strong>Name:</strong> <%= request.donor?.name || 'N/A' %></p>
+      <p><strong>Email:</strong> <%= request.donor?.email || 'N/A' %></p>
+      <p><strong>Phone:</strong> <%= request.donor?.phone || 'N/A' %></p>
+    </div>
+  </div>
+
+  <!-- Receiver Information -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Receiver Information</h5>
+      <p><strong>Name:</strong> <%= request.receiver?.name || 'N/A' %></p>
+      <p><strong>Email:</strong> <%= request.receiver?.email || 'N/A' %></p>
+      <p><strong>Phone:</strong> <%= request.receiver?.phone || 'N/A' %></p>
+    </div>
+  </div>
+
+  <!-- Food Information -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Food Information</h5>
+      <p><strong>Title:</strong> <%= request.food?.title || 'N/A' %></p>
+      <p><strong>Description:</strong> <%= request.food?.description || 'N/A' %></p>
+      <p><strong>Status:</strong> <%= request.food?.status || 'N/A' %></p>
+    </div>
+  </div>
+
+  <a href="/admin/requests" class="btn btn-secondary mt-4">← Back to Requests</a>
+</div>
+
+<%- include('../partials/footer') %>
