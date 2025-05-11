@@ -22,8 +22,12 @@
         <tbody>
           <% feedback.forEach(function(item) { %>
             <tr data-id="<%= item._id %>" class="<%= item.isTestimonial ? 'table-success' : '' %>">
-              <td><%= item.user.name %></td>
-              <td><span class="badge badge-<%= item.user.role === 'donor' ? 'success' : item.user.role === 'receiver' ? 'info' : 'primary' %>"><%= item.user.role %></span></td>
+              <td><%= item.user && item.user.name ? item.user.name : 'Unknown User' %></td>
+              <td>
+                <span class="badge badge-<%= item.user && item.user.role === 'donor' ? 'success' : item.user && item.user.role === 'receiver' ? 'info' : 'secondary' %>">
+                  <%= item.user && item.user.role ? item.user.role : 'Unknown' %>
+                </span>
+              </td>
               <td>
                 <div class="testimonial-rating">
                   <% for (let i = 0; i < 5; i++) { %>
@@ -31,8 +35,8 @@
                   <% } %>
                 </div>
               </td>
-              <td><%= item.message.substring(0, 100) %><%= item.message.length > 100 ? '...' : '' %></td>
-              <td><%= new Date(item.createdAt).toLocaleDateString() %></td>
+              <td><%= item.message ? item.message.substring(0, 100) : '' %><%= item.message && item.message.length > 100 ? '...' : '' %></td>
+              <td><%= item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A' %></td>
               <td>
                 <button 
                   class="btn btn-sm <%= item.isTestimonial ? 'btn-danger' : 'btn-success' %> testimonial-toggle"
