@@ -119,5 +119,20 @@ router.get('/testimonials', async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+// Route to delete feedback
+router.delete('/delete/:id', ensureAdmin, async (req, res) => {
+  try {
+    const feedback = await Feedback.findByIdAndDelete(req.params.id);
+
+    if (!feedback) {
+      return res.status(404).json({ success: false, message: 'Feedback not found' });
+    }
+
+    res.json({ success: true, message: 'Feedback deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting feedback:', err);
+    res.status(500).json({ success: false, message: 'Failed to delete feedback' });
+  }
+});
 
 module.exports = router;
