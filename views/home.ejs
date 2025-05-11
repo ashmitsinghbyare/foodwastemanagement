@@ -190,16 +190,19 @@
                 </div>
                 <p class="testimonial-message">"<%= testimonial.message %>"</p>
                 <div class="testimonial-user">
-                  <img 
-                    src="/uploads/profiles/<%= testimonial.user.profileImage || 'default-avatar.png' %>" 
-                    alt="<%= testimonial.user.role %>" 
-                    class="rounded-circle"
-                    onerror="this.src='/images/default-avatar.svg'" 
-                  >
-                  <div class="testimonial-user-info">
-                    <span class="testimonial-user-name"><%= testimonial.user.name %></span>
-                    <span class="testimonial-user-role <%= testimonial.user.role === 'donor' ? 'text-success' : 'text-info' %>"><%= testimonial.user.role.charAt(0).toUpperCase() + testimonial.user.role.slice(1) %></span>
-                  </div>
+               <img 
+  src="/uploads/profiles/<%= testimonial.user && testimonial.user.profileImage ? testimonial.user.profileImage : 'default-avatar.png' %>" 
+  alt="<%= testimonial.user && testimonial.user.role ? testimonial.user.role : 'User' %>" 
+  class="rounded-circle"
+  onerror="this.src='/images/default-avatar.svg'" 
+>
+<div class="testimonial-user-info">
+  <span class="testimonial-user-name"><%= testimonial.user && testimonial.user.name ? testimonial.user.name : 'Anonymous' %></span>
+  <span class="testimonial-user-role <%= testimonial.user && testimonial.user.role === 'donor' ? 'text-success' : 'text-info' %>">
+    <%= testimonial.user && testimonial.user.role ? testimonial.user.role.charAt(0).toUpperCase() + testimonial.user.role.slice(1) : 'User' %>
+  </span>
+</div>
+
                 </div>
               </div>
             </div>
