@@ -20,7 +20,7 @@ const createTransporter = () => {
     port: 587,
     secure: false,
     auth: {
-      user: process.env.EMAIL_USER || 'noreply@foodwastemanagement.com',
+      user: process.env.EMAIL_USER || 'noreplyfoodwastemanagement@gmail.com',
       pass: process.env.EMAIL_PASS || ''
     },
     tls: {
